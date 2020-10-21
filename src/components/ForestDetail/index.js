@@ -74,7 +74,8 @@ class ForestDetail extends Component{
                         padding: 24,
                         margin: 0,
                         minHeight: 280,
-                    }}>{item.name}
+                    }}>
+                <div>{item.name}</div>
                 <Image src={img} width={1200} />
                     <div>{item.desc}</div>
                     {this.buttons()}

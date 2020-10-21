@@ -134,6 +134,7 @@ class AllForests extends Component{
                     <Breadcrumb.Item>List</Breadcrumb.Item>
                     <Breadcrumb.Item>App</Breadcrumb.Item>
                     </Breadcrumb> */}
+
                     <Content
                     className="site-layout-background"
                     style={{
@@ -142,6 +143,7 @@ class AllForests extends Component{
                         minHeight: 280,
                     }}
                     >
+                    <div>{cur_item.name}</div>
                     <Image src={img} width={900} />
                     <div>{cur_item.desc}</div>
                     {this.buttons()}
