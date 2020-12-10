@@ -1,10 +1,12 @@
 import React, {Component}from 'react';
-import ReactDOM from 'react-dom';
 import 'antd/dist/antd.css';
-import {Layout, Form, Input, Button, Checkbox } from 'antd';
-import {BrowserRouter as Router, Link, Switch, Route, replace, withRouter } from "react-router-dom";
-import Routes from "../../Routes";
+import {Layout, Form, Input, Button, Checkbox, Spin} from 'antd';
+import { withRouter } from "react-router-dom";
 import {  UserOutlined, LockOutlined  } from '@ant-design/icons';
+import { connect } from 'react-redux';
+import * as actions from '../../store/actions/auth';
+
+
 
 class Login extends Component{
   
@@ -18,7 +20,8 @@ class Login extends Component{
   
   render() {
     const onFinish = (values) => {
-      const {history} = this.props
+      const {history, onAuth, type} = this.props
+      onAuth(values.username, values.password, type)
       console.log('Success:', values);
       history.push({
         pathname : "/overview",
@@ -29,8 +32,33 @@ class Login extends Component{
     const onFinishFailed = (errorInfo) => {
       console.log('Failed:', errorInfo);
     };
-
+    
+    const handleRegister = ()=>{
+      const {history, type} = this.props
+      const path = 
+        type=="Funder"? "/FunderRegister":
+        type=="Owner"? "/OwnerRegister":
+        "/AuthRegister"
+      console.log('register');
+      history.push({
+        pathname : path,
+      })
+    }
+    let errorMessage = null;
+    if (this.props.error){
+      errorMessage = (
+        <p>{this.props.error.message}</p>
+      )
+    }
     return (
+      <div>
+      {errorMessage}
+      {
+        this.props.loading ?
+
+        <Spin  />
+
+        :
       <Layout style={{height:"100vh"}}>
       <Form
         style={{width: 400, margin:"150px auto"}}
@@ -82,11 +110,25 @@ class Login extends Component{
         <Button style={{width:"100%"}} type="primary" htmlType="submit" className="login-form-button">
           Log in
         </Button>
-        Or <a href="">register now!</a>
+        Or <Button type="link" onClick={handleRegister}>register now!</Button>
       </Form.Item>
     </Form>
-    </Layout>
+    </Layout>}
+    </div>
     );
   };
 }
-export default withRouter(Login)
+
+const mapStateToProps = (state) => {
+  return {
+      loading: state.loading,
+      error: state.error
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+      onAuth: (username, password, type) => dispatch(actions.authLogin(username, password, type)) 
+  }
+}
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Login))

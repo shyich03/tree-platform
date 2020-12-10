@@ -1,63 +1,52 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import 'antd/dist/antd.css';
-import { Layout, Menu, Breadcrumb, Form, Input, Button, Modal, Image } from 'antd';
-import { UserOutlined, LaptopOutlined, NotificationOutlined } from '@ant-design/icons';
+import { Layout, Menu, Button, Modal, Image } from 'antd';
 import {withRouter} from 'react-router-dom'
 import img from '../../test.jpg'
-import Item from 'antd/lib/list/Item';
+import {api} from '../../apis'
+import AddForm from '../ForestDetail/AddForm'
+import { connect } from 'react-redux';
+import * as actions from '../../store/actions/auth';
 
-const { SubMenu } = Menu;
-const { Header, Content, Sider, Footer } = Layout;
+const { Header, Content, Sider } = Layout;
 class AllForests extends Component{
     constructor(props){
         super(props)
-        
         this.state = {
             menu: "my",
-            data : [
-                {
-                    name: "forest 1",
-                    key: "1",
-                    img: img,
-                    desc: "this is a forest blablablabla1"
-    
-                },
-                {
-                    name: "forest 2",
-                    key: "2",
-                    img: img,
-                    desc: "this is a forest blablablabla2"
-    
-                },
-                {
-                    name: "forest 3",
-                    key: "3",
-                    img: img,
-                    desc: "this is a forest blablablabla3"
-    
-                },
-                {
-                    name: "forest 4",
-                    key: "4",
-                    img: img,
-                    desc: "this is a forest blablablabla4"
-    
-                },
-            ],
-            cur_item: props.location.state.cur_item||{
-                name: "forest 1",
-                key: "1",
-                img: img,
-                desc: "this is a forest blablablabla"
-
-            },
+            data : [],
+            cur_item: props.location.state.cur_item||{},
             type: props.location.state.type,
             showAddModal: false
             
         }
-        console.log(props.location.state);
     }
+    async componentDidMount(){
+        var res = await api.get('forest/')
+        console.log(res.data);
+        this.setState({
+            data: res.data.map((e)=>{
+                var o = Object.assign({}, e)
+                o.key = o.id.toString() 
+                return o
+            }),
+        })
+        if(this.isCurEmpty()){
+            this.setState({cur_item: this.state.data[0]})
+        }
+        console.log(res, this.state.data, this.state.cur_item);
+    }
+
+    isCurEmpty=() =>{
+        const {cur_item}=this.state
+        for(var prop in cur_item) {
+            if(cur_item.hasOwnProperty(prop))
+                return false;
+        }
+        return true;
+    }
+
     handleMenuCLick = e=>{
         if (e.key=="logout"){
             console.log('this.props', this.props)
@@ -67,7 +56,9 @@ class AllForests extends Component{
         }
     }
     handleSelectForest = e=>{
+        // console.log(e,this.state.data.find(element => element.key == e.key));
         this.setState({cur_item: this.state.data.find(element => element.key == e.key)})
+        // console.log([this.state.cur_item.key]);
     }
     showForestDetail = ()=>{
         const {history} = this.props
@@ -89,12 +80,12 @@ class AllForests extends Component{
     buttons = ()=>{
         const {type} = this.state
         return(
-        type=="owner"?
+        type=="Owner"?
             <div>
             <Button style={{float:"right", margin:"50px 30px"}} onClick={this.addNewForest}>Add New</Button>
             <Button style={{float:"right", margin:"50px 30px"}} onClick={this.showForestDetail}>Details</Button>
             </div>
-        :type=="funder"?
+        :type=="Funder"?
             <div>
             <Button style={{float:"right", margin:"50px 30px"}} onClick={this.onClickFund}>Fund</Button>
             <Button style={{float:"right", margin:"50px 30px"}} onClick={this.showForestDetail}>Details</Button>
@@ -121,7 +112,7 @@ class AllForests extends Component{
                 <Sider width={220} className="site-layout-background">
                     <Menu
                     mode="inline"
-                    selectedKeys={[cur_item.key]}
+                    selectedKeys={cur_item?[cur_item.key]:[]}
                     style={{ height: '100%', borderRight: 0 }}
                     onClick={this.handleSelectForest}
                     >
@@ -142,19 +133,18 @@ class AllForests extends Component{
                         minHeight: 280,
                     }}
                     >
+                    {!this.isCurEmpty()?(<div>
                     <Image src={img} width={900} />
                     <div>{cur_item.desc}</div>
-                    {this.buttons()}
+                    {this.buttons()}</div>
+                    ):(<div>No Forest</div>)}
                     <Modal 
                         title="Add Forest"
                         visible={showAddModal}
                         width="80%"
                         onOk={this.addOK}
                         onCancel={()=>{this.setState({ showAddModal: false  });}} >
-                        <Form>
-                            proof
-                            <Input />
-                        </Form>
+                        <AddForm />
                     </Modal>
                     </Content>
                     
@@ -166,4 +156,17 @@ class AllForests extends Component{
         )
     }
 }
-export default withRouter(AllForests)
+
+// const mapStateToProps = (state) => {
+//   return {
+//       loading: state.loading,
+//       error: state.error
+//   }
+// }
+
+const mapDispatchToProps = dispatch => {
+  return {
+      onLogout: (username, password, type) => dispatch(actions.logout(username, password, type)) 
+  }
+}
+export default withRouter(connect(mapDispatchToProps)(AllForests))

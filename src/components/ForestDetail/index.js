@@ -48,16 +48,16 @@ class ForestDetail extends Component{
     buttons = ()=>{
         const {type} = this.state
         return(
-        type=="owner"?
+        type=="Owner"?
             <div>
             <Button style={{float:"right", margin:"50px 30px"}} onClick={this.onClickBack}>Back</Button>
             </div>
-        :type=="funder"?
+        :type=="Funder"?
             <div>
             <Button style={{float:"right", margin:"50px 30px"}} onClick={this.onClickFund}>Fund</Button>
             <Button style={{float:"right", margin:"50px 30px"}} onClick={this.onClickBack}>Back</Button>
             </div>
-        ://auth
+        ://Auth
             <div>
             <Button style={{float:"right", margin:"50px 30px"}} onClick={this.onClickConfirm}>Confirm</Button>
             <Button style={{float:"right", margin:"50px 30px"}} onClick={this.onClickDeny}>Deny</Button>

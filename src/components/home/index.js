@@ -34,7 +34,6 @@ export default class Home extends Component{
           ];
         return(
 
-        
         <Layout style={{height:"100vh"}}>
         <nav style={{width:600, margin:"200px auto "}}>
           <h1 style={{width:600, margin:"50px auto", textAlign:"center", fontSize:"50px"}}>log in as</h1>
