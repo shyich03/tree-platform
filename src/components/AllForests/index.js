@@ -51,7 +51,10 @@ class AllForests extends Component{
         if (e.key=="logout"){
             console.log('this.props', this.props)
             this.props.history.push("/")
-        }else{
+        }else if(e.key=="add"){
+            this.setState({showAddModal:true})
+        }
+        else{
             this.setState({menu: e.key})
         }
     }
@@ -96,6 +99,7 @@ class AllForests extends Component{
     render(){
         const {data, cur_item, showAddModal} = this.state
         const {type} = this.props
+        console.log(type);
         // const { type } = this.props.location.state
         return(
             <Layout style={{height:"100vh"}}>
@@ -105,6 +109,9 @@ class AllForests extends Component{
                     <Menu.Item key="my">My forests</Menu.Item>
                     <Menu.Item key="all">All forests</Menu.Item>
                     <Menu.Item style={{float:"right"}} key="logout">Log out</Menu.Item>
+                    {type=='Owner'&&
+                        <Menu.Item style={{float:"right"}} key="add">Add New</Menu.Item>
+                    }
                 </Menu>
                 </Header>
                 

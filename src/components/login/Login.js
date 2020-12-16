@@ -21,12 +21,13 @@ class Login extends Component{
   render() {
     const onFinish = (values) => {
       const {history, onAuth, type} = this.props
-      onAuth(values.username, values.password, type)
-      console.log('Success:', values);
-      history.push({
-        pathname : "/overview",
-        state: {type: this.props.type}
+      onAuth(values.username, values.password, type, (type,res)=>{
+        console.log('Success:', values, type, res);
+        history.push({
+          pathname : "/overview",
+        })
       })
+      
     };
 
     const onFinishFailed = (errorInfo) => {
@@ -39,7 +40,7 @@ class Login extends Component{
         type=="Funder"? "/FunderRegister":
         type=="Owner"? "/OwnerRegister":
         "/AuthRegister"
-      console.log('register');
+      console.log('register',type);
       history.push({
         pathname : path,
       })
@@ -122,13 +123,14 @@ class Login extends Component{
 const mapStateToProps = (state) => {
   return {
       loading: state.loading,
-      error: state.error
+      error: state.error,
+      type: state.type
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-      onAuth: (username, password, type) => dispatch(actions.authLogin(username, password, type)) 
+      onAuth: (username, password, type,callback) => dispatch(actions.authLogin(username, password, type, callback)) 
   }
 }
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Login))

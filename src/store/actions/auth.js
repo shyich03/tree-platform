@@ -1,6 +1,6 @@
 import axios from 'axios';
 import * as actionTypes from './actionTypes';
-import {auth} from "../../apis"
+import {auth, api} from "../../apis"
 
 export const authStart = () => {
     return {
@@ -38,7 +38,7 @@ export const checkAuthTimeout = expirationTime => {
     }
 }
 
-export const authLogin = (username, password, type) => {
+export const authLogin = (username, password, type, callback) => {
     return dispatch => {
         dispatch(authStart());
         // axios.post('http://127.0.0.1:8000/rest-auth/login/', {
@@ -48,7 +48,7 @@ export const authLogin = (username, password, type) => {
         auth.post('login/', {
             username: username,
             password: password,
-            type: type
+            type: type.toLowerCase()
         })
         .then(res => {
             const token = res.data.key;
@@ -57,6 +57,8 @@ export const authLogin = (username, password, type) => {
             localStorage.setItem('expirationDate', expirationDate);
             dispatch(authSuccess(token));
             dispatch(checkAuthTimeout(3600));
+            type = res['type']
+            callback(type,res)
         })
         .catch(err => {
             dispatch(authFail(err))
@@ -64,15 +66,12 @@ export const authLogin = (username, password, type) => {
     }
 }
 
-export const authSignup = (username, email, password1, password2, type) => {
+export const authSignup = (values, type) => {
     return dispatch => {
         dispatch(authStart());
-        axios.post('http://127.0.0.1:8000/rest-auth/registration/', {
-            username: username,
-            email: email,
-            password1: password1,
-            password2: password2,
-            type: type
+        api.post('user/', {
+            ...values,
+            type: type.toLowerCase()
         })
         .then(res => {
             const token = res.data.key;

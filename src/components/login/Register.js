@@ -2,7 +2,9 @@ import React, {Component}from 'react';
 import 'antd/dist/antd.css';
 import {Layout, Form, Input, Button, Checkbox } from 'antd';
 import { withRouter } from "react-router-dom";
-import {  UserOutlined, LockOutlined  } from '@ant-design/icons';
+import {  MailOutlined, UserOutlined, LockOutlined  } from '@ant-design/icons';
+import * as actions from '../../store/actions/auth';
+import { connect } from 'react-redux';
 
 class Register extends Component{
   
@@ -16,13 +18,12 @@ class Register extends Component{
   
   render() {
     const onFinish = (values) => {
-      const {history, submit,type} = this.props
+      const {history, onAuth,type} = this.props
+      onAuth(values, type)
       console.log('Success:', values);
       history.push({
         pathname : "/"+type+"login",
-        state: {type: this.props.type}
       })
-      submit(values)
     };
 
     const onFinishFailed = (errorInfo) => {
@@ -40,7 +41,6 @@ class Register extends Component{
       >
           <Form.Item
         name="email"
-        label="E-mail"
         rules={[
           {
             type: 'email',
@@ -52,7 +52,7 @@ class Register extends Component{
           },
         ]}
       >
-        <Input />
+        <Input prefix={<MailOutlined className="site-form-item-icon" />} placeholder="Email"/>
       </Form.Item>
         <Form.Item
         name="username"
@@ -104,6 +104,25 @@ class Register extends Component{
           placeholder="Confirm password"
         />
       </Form.Item>
+      {this.props.type=='Owner'?
+        <Form.Item
+          name="paypal_email"
+          rules={[
+            {
+              type: 'email',
+              message: 'The input is not valid E-mail!',
+            },
+            {
+              required: true,
+              message: 'Please input your E-mail!',
+            },
+          ]}
+        >
+        <Input placeholder="paypal email"/>
+      
+        </Form.Item>:
+        ""
+      }
 
       <Form.Item>
         <Button style={{width:"100%"}} type="primary" htmlType="submit" className="login-form-button">
@@ -118,4 +137,16 @@ class Register extends Component{
     );
   };
 }
-export default withRouter(Register)
+const mapStateToProps = (state) => {
+  return {
+      loading: state.loading,
+      error: state.error
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    onAuth: (values, type) => dispatch(actions.authSignup(values, type)) 
+  }
+}
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Register))

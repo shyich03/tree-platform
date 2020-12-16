@@ -5,7 +5,7 @@ import {withRouter } from 'react-router-dom'
 class OwnerLogin extends Component {
     render(){
         return (<div>
-        <Login type="Owner"/> 
+        <Login /> 
         </div>
         )
     }
