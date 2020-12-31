@@ -21,8 +21,9 @@ class Login extends Component{
   render() {
     const onFinish = (values) => {
       const {history, onAuth, type} = this.props
-      onAuth(values.username, values.password, type, (type,res)=>{
-        console.log('Success:', values, type, res);
+      console.log(this.props);
+      onAuth(values.username, values.password, type, (res)=>{
+        console.log('Success:', values, res);
         history.push({
           pathname : "/overview",
         })
@@ -35,7 +36,7 @@ class Login extends Component{
     };
     
     const handleRegister = ()=>{
-      const {history, type} = this.props
+      const {history,type} = this.props
       const path = 
         type=="Funder"? "/FunderRegister":
         type=="Owner"? "/OwnerRegister":
@@ -124,7 +125,7 @@ const mapStateToProps = (state) => {
   return {
       loading: state.loading,
       error: state.error,
-      type: state.type
+      type: state.user_type
   }
 }
 

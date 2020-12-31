@@ -8,6 +8,7 @@ import {api} from '../../apis'
 import AddForm from '../ForestDetail/AddForm'
 import { connect } from 'react-redux';
 import * as actions from '../../store/actions/auth';
+import {Redirect } from "react-router-dom";
 
 const { Header, Content, Sider } = Layout;
 class AllForests extends Component{
@@ -16,8 +17,8 @@ class AllForests extends Component{
         this.state = {
             menu: "my",
             data : [],
-            cur_item: props.location.state.cur_item||{},
-            type: props.location.state.type,
+            cur_item: (props.location.state&&props.location.state.cur_item)||{},
+            type: props.user_type,
             showAddModal: false
             
         }
@@ -35,7 +36,6 @@ class AllForests extends Component{
         if(this.isCurEmpty()){
             this.setState({cur_item: this.state.data[0]})
         }
-        console.log(res, this.state.data, this.state.cur_item);
     }
 
     isCurEmpty=() =>{
@@ -76,10 +76,6 @@ class AllForests extends Component{
     addNewForest=() =>{
         this.setState({showAddModal:true})
     }
-    addOK=()=>{
-        //save data
-        this.setState({showAddModal:false})
-    }
     buttons = ()=>{
         const {type} = this.state
         return(
@@ -98,9 +94,13 @@ class AllForests extends Component{
         )}
     render(){
         const {data, cur_item, showAddModal} = this.state
-        const {type} = this.props
-        console.log(type);
+        const {type, token} = this.props
+        console.log(this.props, 'allf');
         // const { type } = this.props.location.state
+        if (!token){
+            console.log("token", token);
+            return <Redirect to="/" />
+        }
         return(
             <Layout style={{height:"100vh"}}>
                 <Header className="header">
@@ -145,14 +145,12 @@ class AllForests extends Component{
                     <div>{cur_item.desc}</div>
                     {this.buttons()}</div>
                     ):(<div>No Forest</div>)}
-                    <Modal 
-                        title="Add Forest"
-                        visible={showAddModal}
-                        width="80%"
-                        onOk={this.addOK}
-                        onCancel={()=>{this.setState({ showAddModal: false  });}} >
-                        <AddForm />
-                    </Modal>
+                    
+                        <AddForm 
+                            showAddModal={this.state.showAddModal}
+                            onOK={()=>{this.setState({showAddModal:false})}}
+                            onCancel={()=>{this.setState({ showAddModal: false  });}}
+                        />
                     </Content>
                     
                 {/* </Layout> */}
@@ -164,16 +162,17 @@ class AllForests extends Component{
     }
 }
 
-// const mapStateToProps = (state) => {
-//   return {
-//       loading: state.loading,
-//       error: state.error
-//   }
-// }
+const mapStateToProps = (state) => {
+    console.log(state);
+  return {
+      type:state.user_type,
+      token: state.token
+  }
+}
 
 const mapDispatchToProps = dispatch => {
   return {
       onLogout: (username, password, type) => dispatch(actions.logout(username, password, type)) 
   }
 }
-export default withRouter(connect(mapDispatchToProps)(AllForests))
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(AllForests))

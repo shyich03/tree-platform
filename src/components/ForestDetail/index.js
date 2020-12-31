@@ -4,8 +4,10 @@ import 'antd/dist/antd.css';
 import { Layout, Menu, Modal, Form, Input, Button, Checkbox, Image } from 'antd';
 import { UserOutlined, LaptopOutlined, NotificationOutlined } from '@ant-design/icons';
 import {withRouter} from 'react-router-dom'
+import { connect } from 'react-redux';
 import img from '../../test.jpg'
 import Item from 'antd/lib/list/Item';
+import {Redirect } from "react-router-dom";
 const { SubMenu } = Menu;
 const { Header, Content, Sider, Footer } = Layout;
 
@@ -66,6 +68,11 @@ class ForestDetail extends Component{
         )}
     render(){
         const {item, showConfirmModal, showDenyModal} = this.state
+        const {token} = this.props
+        if (!token){
+            console.log("token", token);
+            return <Redirect to="/" />
+        }
         return(
             <Layout style={{height:"100vh"}}>
                 <Content 
@@ -105,4 +112,12 @@ class ForestDetail extends Component{
         )
     }
 }
-export default withRouter(ForestDetail)
+
+const mapStateToProps = (state) => {
+    console.log(state);
+  return {
+      type:state.user_type,
+      token: state.token
+  }
+}
+export default withRouter(connect(mapStateToProps)( ForestDetail))

@@ -18,7 +18,7 @@ class Register extends Component{
   
   render() {
     const onFinish = (values) => {
-      const {history, onAuth,type} = this.props
+      const {history, onAuth, type} = this.props
       onAuth(values, type)
       console.log('Success:', values);
       history.push({
@@ -140,7 +140,8 @@ class Register extends Component{
 const mapStateToProps = (state) => {
   return {
       loading: state.loading,
-      error: state.error
+      error: state.error,
+      type: state.user_type
   }
 }
 

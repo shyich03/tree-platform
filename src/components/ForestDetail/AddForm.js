@@ -1,107 +1,137 @@
 import React, {Component}from 'react';
 import 'antd/dist/antd.css';
-import {Layout, Form, Input, Button, Checkbox } from 'antd';
-import {  UserOutlined, LockOutlined  } from '@ant-design/icons';
+import { Form, Input, Modal,Button} from 'antd';
+import {api} from '../../apis'
 
 export default class AddForm extends Component{
     render(){
-        const onFinish = (values) => {
-            const {history, submit,type} = this.props
-            console.log('Success:', values);
-            history.push({
-                pathname : "/"+type+"login",
-                state: {type: this.props.type}
-            })
-            submit(values)
-        };
+        const {showAddModal, onCancel, onOK} = this.props
     
         const onFinishFailed = (errorInfo) => {
             console.log('Failed:', errorInfo);
         };
+        const submitFrom = (v)=>{
+            console.log("submit", v);
+            var res = api.post('forest/', 
+                {
+                    ...v,
+                    
+                })
+            console.log(res);
+
+        }
         return(
+            <Modal 
+                title="Add Forest"
+                visible={showAddModal}
+                width="80%"
+                onCancel={onCancel} 
+                footer={null}>
             <Form
                 style={{width: '80%', margin:"150px auto"}}
                 {...this.layout}
                 name="basic"
-                onFinish={onFinish}
+                onFinish={submitFrom}
                 onFinishFailed={onFinishFailed}
             >
                 <Form.Item
-                name="email"
-                label="E-mail"
+                name="name"
+                label="Forest name"
                 rules={[
                 {
-                    type: 'email',
-                    message: 'The input is not valid E-mail!',
-                },
-                {
                     required: true,
-                    message: 'Please input your E-mail!',
+                    message: 'Please input forest name',
                 },
                 ]}
             >
                 <Input />
             </Form.Item>
-                <Form.Item
-                name="username"
+            <Form.Item
+                name="desc"
+                label="Forest description"
                 rules={[
                 {
                     required: true,
-                    message: 'Please input your Username!',
+                    message: 'Please input forest description',
                 },
                 ]}
             >
-                <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Username" />
+                <Input />
             </Form.Item>
             <Form.Item
-                name="password"
+                name="lat1"
+                label="Top left latitude"
                 rules={[
                 {
                     required: true,
-                    message: 'Please input your Password!',
+                    message: 'Please input top left latitude',
                 },
+                {
+                    type:"number",
+                    message:"must be number"
+                }
                 ]}
             >
-                <Input
-                prefix={<LockOutlined className="site-form-item-icon" />}
-                type="password"
-                placeholder="Password"
-                />
+                <Input/>
             </Form.Item>
             <Form.Item
-                name="confirm-password"
+                name="long1"
+                label="Top left longitude"
                 rules={[
                 {
                     required: true,
-                    message: 'Please confirm your Password!',
+                    message: 'Please input top left longitude',
                 },
-                ({ getFieldValue }) => ({
-                    validator(rule, value) {
-                    if (!value || getFieldValue('password') === value) {
-                        return Promise.resolve();
-                    }
-
-                    return Promise.reject('The two passwords that you entered do not match!');
-                    },
-                }),
+                {
+                    type:"number",
+                    message:"must be number"
+                }
                 ]}
             >
-                <Input
-                prefix={<LockOutlined className="site-form-item-icon" />}
-                type="password"
-                placeholder="Confirm password"
-                />
+                <Input/>
+            </Form.Item>
+            <Form.Item
+                name="lat2"
+                label="Bottom right latitude"
+                rules={[
+                {
+                    required: true,
+                    message: 'Please input bottom right latitude',
+                },
+                {
+                    type:"number",
+                    message:"must be number"
+                }
+                ]}
+            >
+                <Input/>
+            </Form.Item>
+            <Form.Item
+                name="long2"
+                label="Bottom right longitude"
+                rules={[
+                {
+                    required: true,
+                    message: 'Please input bottom right longitude',
+                },
+                {
+                    type:"number",
+                    message:"must be number"
+                }
+                ]}
+            >
+                <Input/>
             </Form.Item>
 
             <Form.Item>
-                <Button style={{width:"100%"}} type="primary" htmlType="submit" className="login-form-button">
-                    Register
+                <Button  type="primary" htmlType="submit" className="login-form-button">
+                Submit
                 </Button>
-                {/* <Button onClick={onFinish}> 
-                test
-                </Button> */}
+                Or <Button type="primary" onClick={onCancel}>Cancel</Button>
             </Form.Item>
             </Form>
+            
+            </Modal>
         )
     }
 }

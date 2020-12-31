@@ -2,6 +2,13 @@ import axios from 'axios';
 import * as actionTypes from './actionTypes';
 import {auth, api} from "../../apis"
 
+export const updateType = type =>{
+    return {
+        type: actionTypes.UPDATE_TYPE,
+        user_type: type
+    }
+}
+
 export const authStart = () => {
     return {
         type: actionTypes.AUTH_START
@@ -57,8 +64,7 @@ export const authLogin = (username, password, type, callback) => {
             localStorage.setItem('expirationDate', expirationDate);
             dispatch(authSuccess(token));
             dispatch(checkAuthTimeout(3600));
-            type = res['type']
-            callback(type,res)
+            callback(res)
         })
         .catch(err => {
             dispatch(authFail(err))

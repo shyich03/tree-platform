@@ -5,7 +5,7 @@ const initialState = {
     token: null,
     error: null, 
     loading: false,
-    type: null
+    user_type: null
 }
 
 const authStart = (state, action) => {
@@ -37,7 +37,7 @@ const authLogout = (state, action) => {
 }
 const updateType = (state, action)=>{
     return updateObject(state, {
-        type:action.user_type
+        user_type:action.user_type
     })
 }
 const reducer = (state=initialState, action) => {
@@ -46,7 +46,7 @@ const reducer = (state=initialState, action) => {
         case actionTypes.AUTH_SUCCESS: return authSuccess(state, action);
         case actionTypes.AUTH_FAIL: return authFail(state, action);
         case actionTypes.AUTH_LOGOUT: return authLogout(state, action);
-        case actionTypes.UPDATE_TYPE: return updatety(state, action);
+        case actionTypes.UPDATE_TYPE: return updateType(state, action);
         default:
             return state;
     }
