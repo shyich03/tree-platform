@@ -125,7 +125,7 @@ const mapStateToProps = (state) => {
   return {
       loading: state.loading,
       error: state.error,
-      type: state.user_type
+      type: state.user_type,
   }
 }
 

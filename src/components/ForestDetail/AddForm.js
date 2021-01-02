@@ -1,11 +1,13 @@
 import React, {Component}from 'react';
 import 'antd/dist/antd.css';
-import { Form, Input, Modal,Button} from 'antd';
+import { Form, Input, Modal,Button, InputNumber} from 'antd';
 import {api} from '../../apis'
 
 export default class AddForm extends Component{
+    form = React.createRef();
+
     render(){
-        const {showAddModal, onCancel, onOK} = this.props
+        const {showAddModal, onCancel, onOK, token} = this.props
     
         const onFinishFailed = (errorInfo) => {
             console.log('Failed:', errorInfo);
@@ -15,10 +17,17 @@ export default class AddForm extends Component{
             var res = api.post('forest/', 
                 {
                     ...v,
-                    
+                    varified: false,
+                    user_token: token
                 })
             console.log(res);
+            onOK()
+            this.form.current.resetFields()
 
+        }
+        const buttonStyle = {
+            float:"right",
+            marginLeft:"30px"
         }
         return(
             <Modal 
@@ -28,6 +37,7 @@ export default class AddForm extends Component{
                 onCancel={onCancel} 
                 footer={null}>
             <Form
+                ref = {this.form}
                 style={{width: '80%', margin:"150px auto"}}
                 {...this.layout}
                 name="basic"
@@ -47,7 +57,7 @@ export default class AddForm extends Component{
                 <Input />
             </Form.Item>
             <Form.Item
-                name="desc"
+                name="description"
                 label="Forest description"
                 rules={[
                 {
@@ -72,7 +82,7 @@ export default class AddForm extends Component{
                 }
                 ]}
             >
-                <Input/>
+                <InputNumber/>
             </Form.Item>
             <Form.Item
                 name="long1"
@@ -88,7 +98,7 @@ export default class AddForm extends Component{
                 }
                 ]}
             >
-                <Input/>
+                <InputNumber/>
             </Form.Item>
             <Form.Item
                 name="lat2"
@@ -104,7 +114,7 @@ export default class AddForm extends Component{
                 }
                 ]}
             >
-                <Input/>
+                <InputNumber/>
             </Form.Item>
             <Form.Item
                 name="long2"
@@ -120,14 +130,14 @@ export default class AddForm extends Component{
                 }
                 ]}
             >
-                <Input/>
+                <InputNumber/>
             </Form.Item>
 
             <Form.Item>
-                <Button  type="primary" htmlType="submit" className="login-form-button">
+                <Button style={buttonStyle} type="primary" htmlType="submit" className="login-form-button">
                 Submit
                 </Button>
-                Or <Button type="primary" onClick={onCancel}>Cancel</Button>
+                <Button style={buttonStyle} type="primary" onClick={onCancel}>Cancel</Button>
             </Form.Item>
             </Form>
             

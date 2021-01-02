@@ -25,7 +25,6 @@ class AllForests extends Component{
     }
     async componentDidMount(){
         var res = await api.get('forest/')
-        console.log(res.data);
         this.setState({
             data: res.data.map((e)=>{
                 var o = Object.assign({}, e)
@@ -75,6 +74,17 @@ class AllForests extends Component{
     }
     addNewForest=() =>{
         this.setState({showAddModal:true})
+    }
+    onOK=async ()=>{
+        var res = await api.get('forest/')
+        this.setState({
+            data: res.data.map((e)=>{
+                var o = Object.assign({}, e)
+                o.key = o.id.toString() 
+                return o
+            }),
+            showAddModal: false,
+        })
     }
     buttons = ()=>{
         const {type} = this.state
@@ -126,12 +136,7 @@ class AllForests extends Component{
                         {data.map(item => <Menu.Item key={item.key}>{item.name}</Menu.Item>)}
                     </Menu>
                 </Sider>
-                {/* <Layout style={{ padding: '0 24px 24px' }}> */}
-                    {/* <Breadcrumb style={{ margin: '16px 0' }}>
-                    <Breadcrumb.Item>Home</Breadcrumb.Item>
-                    <Breadcrumb.Item>List</Breadcrumb.Item>
-                    <Breadcrumb.Item>App</Breadcrumb.Item>
-                    </Breadcrumb> */}
+               
                     <Content
                     className="site-layout-background"
                     style={{
@@ -142,14 +147,16 @@ class AllForests extends Component{
                     >
                     {!this.isCurEmpty()?(<div>
                     <Image src={img} width={900} />
+                    <Image src={cur_item.gee_image} width={900} />
                     <div>{cur_item.desc}</div>
                     {this.buttons()}</div>
                     ):(<div>No Forest</div>)}
                     
                         <AddForm 
-                            showAddModal={this.state.showAddModal}
-                            onOK={()=>{this.setState({showAddModal:false})}}
+                            showAddModal={showAddModal}
+                            onOK={this.onOK}
                             onCancel={()=>{this.setState({ showAddModal: false  });}}
+                            token={token}
                         />
                     </Content>
                     
