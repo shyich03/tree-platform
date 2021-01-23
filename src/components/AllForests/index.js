@@ -35,6 +35,7 @@ class AllForests extends Component{
         if(this.isCurEmpty()){
             this.setState({cur_item: this.state.data[0]})
         }
+        console.log(res);
     }
 
     isCurEmpty=() =>{

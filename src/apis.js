@@ -12,4 +12,7 @@ export const auth = axios.create({
     baseURL:'http://localhost:8000/rest-auth/',
     headers: {'X-CSRFToken': generated_csrf_token},
 })
+// export const auth_req = (dir, header, payload){
+    
+// }
 // export const URL = 'http://127.0.0.1:8000/'

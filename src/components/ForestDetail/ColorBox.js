@@ -29,7 +29,8 @@ export default class ColorBox extends Component{
             height: size.toString()+"px",
             position:"absolute",
             top:top,
-            left:left
+            left:left,
+            zIndex:"3"
         }} />
         )
     }

@@ -6,14 +6,23 @@ import App from './App';
 import { createStore, compose, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
-
 import reducer from './store/reducers/auth';
-
+import {loadState, saveState} from './localstorage'
+import persistStore from 'redux-persist/es/persistStore';
 const composeEnhances = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 
-const store = createStore(reducer, composeEnhances(
-  applyMiddleware(thunk)
-));
+
+const persistedState = loadState()
+const store = createStore(
+  reducer,
+  persistedState,
+  composeEnhances(
+    applyMiddleware(thunk)
+  )
+)
+store.subscribe(()=>{
+  saveState(store.getState());
+})
 console.log(store);
 const app = (
   <Provider store={store}>
