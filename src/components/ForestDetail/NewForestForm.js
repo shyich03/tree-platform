@@ -13,7 +13,7 @@ render(){
 <Form
     ref = {this.props.formRef}
     style={{width: '80%'}}
-    onFinish={this.props.submitFrom}
+    onFinish={this.props.submitForm}
     onFinishFailed={this.props.onFinishFailed}
 >
 <Form.Item
