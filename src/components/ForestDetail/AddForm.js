@@ -6,10 +6,15 @@ import ColorBox from '../ForestDetail/ColorBox'
 import timg from '../../test.jpg'
 import NewForestForm from './NewForestForm'
 import RegionForm from './RegionForm'
+import { connect } from 'react-redux';
 
-export default class AddForm extends Component{
+class AddForm extends Component{
     constructor(props) {
         super(props);
+        var regionFormData=[]
+        for(var i =1; i<4;i++){
+            regionFormData.push({'attr1':0, 'attr2':0, 'attr3':0, 'attr4':0, "description":""})
+        }
         this.state = {
             mouseDown: false,
             gridData: [[]],
@@ -23,10 +28,12 @@ export default class AddForm extends Component{
             jMax:0,
             showMarker:false,
             img:null,
-            resize:0
+            resize:0,
+            regionFormData:regionFormData,
+            forestID:null
         }
         this.form = React.createRef();
-        this.regionForm = [React.createRef(),React.createRef(),React.createRef()];
+        // this.regionForm = [React.createRef(),React.createRef(),React.createRef()];
         this.imgRef = React.createRef()
         this.boxRef = React.createRef()
     }
@@ -114,9 +121,9 @@ export default class AddForm extends Component{
 
     render(){
         console.log("render");
-        const {size,width, loading,jMax,img, showMarker,gridData}=this.state
+        const {size, loading,jMax,img, showMarker,gridData, regionFormData}=this.state
         const {showAddModal, onCancel, onOK, token} = this.props
-        console.log(gridData,"grid");
+        console.log(regionFormData,"regionFormData");
         const onFinishFailed = (errorInfo) => {
             console.log('Failed:', errorInfo);
         };
@@ -129,30 +136,44 @@ export default class AddForm extends Component{
                     varified: false,
                     user_token: token
                 })
-            console.log(res);
+            console.log(res, "res");
             this.form.current.resetFields()
             this.setState({
                 showMarker:true,
                 loading:false,
-                img:res.data.gee_image
+                img:res.data.gee_image,
+                forestID: res.data.id
             })
 
 
         }
         const submitImageMask=async ()=>{
+            const {gridData, regionFormData, forestID,size} = this.state
             this.setState({showMarker:false})
-            console.log(this.regionForm[0]);
+            console.log("region form", regionFormData);
             // var meta_data = this.formRef.map((ref, index)=>{{str(index): }})
-            // var res = await api.post('create-regions/', 
-            //     {
-            //         image_map: this.state.gridData,
-                    
-            //     })
-            // console.log(res);
-            onOK()
+            var res = await api.post('create-regions', 
+                {
+                    image_map: gridData,
+                    data: regionFormData,
+                    forest_id: forestID,
+                    block_size: size
+                },
+                {
+                    headers:{
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Authorization: Token '+token
+                    }
+                })
+            console.log(res);
+            onOK(forestID)
            
         }
-        
+        const changeRegionData = (groupNum, value)=>{
+            let item = this.state.regionFormData
+            item[groupNum]={...item[groupNum], ...value}
+            this.setState({changeRegionData: item})
+        }
         const spin = loading?
             <div style={{width: "100%", height: "100%", zIndex:'3', position:"absolute", backgroundColor: '#FFF', opacity: 0.5, alignItems: 'center',}}>
                 <Spin style={{left:"50%", top:"50%", position:"absolute"}} />
@@ -214,9 +235,9 @@ export default class AddForm extends Component{
             <Button onClick={()=>{this.setState({color:2})}}>2</Button>
             <Button onClick={()=>{this.setState({color:3})}}>3</Button>
             <Row>
-            {
-                this.regionForm.map((ref, index)=>
-                <RegionForm formRef={ref} key={index}/>
+            {   
+                regionFormData.map((data, index)=>
+                <RegionForm  data={data} onChange={changeRegionData} key={index} id={index}/>
                 )
             }</Row>
             <Button onClick={submitImageMask}>submit</Button>
@@ -226,4 +247,10 @@ export default class AddForm extends Component{
             </Modal>
         )
     }
+}const mapStateToProps = (state) => {
+    console.log(state);
+  return {
+      token: state.token
+  }
 }
+export default connect(mapStateToProps)(AddForm)

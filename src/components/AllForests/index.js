@@ -19,8 +19,8 @@ class AllForests extends Component{
             data : [],
             cur_item: (props.location.state&&props.location.state.cur_item)||{},
             type: props.user_type,
-            showAddModal: false
-            
+            showAddModal: false,
+            cur_item_region:null
         }
     }
     async componentDidMount(){
@@ -32,12 +32,20 @@ class AllForests extends Component{
                 return o
             }),
         })
-        if(this.isCurEmpty()){
-            this.setState({cur_item: this.state.data[0]})
+        if(res.data.length>0){
+            if(this.isCurEmpty()){
+                this.setState({cur_item: this.state.data[0]})
+            }
+            await this.getCurrentRegion(this.state.data[0].id)
         }
         console.log(res);
     }
+    getCurrentRegion = async (id)=>{
+        console.log("singel forest");
+        var res = await api.get('forest-single/'+id.toString())
+        console.log(res);
 
+    }
     isCurEmpty=() =>{
         const {cur_item}=this.state
         for(var prop in cur_item) {
@@ -58,10 +66,11 @@ class AllForests extends Component{
             this.setState({menu: e.key})
         }
     }
-    handleSelectForest = e=>{
+    handleSelectForest = async e=>{
         // console.log(e,this.state.data.find(element => element.key == e.key));
         this.setState({cur_item: this.state.data.find(element => element.key == e.key)})
         // console.log([this.state.cur_item.key]);
+        await this.getCurrentRegion(e.key)
     }
     showForestDetail = ()=>{
         const {history} = this.props
@@ -76,16 +85,20 @@ class AllForests extends Component{
     addNewForest=() =>{
         this.setState({showAddModal:true})
     }
-    onOK=async ()=>{
+    onOK=async (forest_id)=>{
         var res = await api.get('forest/')
-        this.setState({
-            data: res.data.map((e)=>{
-                var o = Object.assign({}, e)
-                o.key = o.id.toString() 
-                return o
-            }),
-            showAddModal: false,
+        var data=res.data.map((e)=>{
+            var o = Object.assign({}, e)
+            o.key = o.id.toString() 
+            return o
         })
+        var cur = data.find(e=>e.id=== forest_id)
+        this.setState({
+            data: data,
+            showAddModal: false,
+            cur_item: cur
+        })
+        await this.getCurrentRegion(forest_id)
     }
     buttons = ()=>{
         const {type} = this.state
@@ -157,7 +170,7 @@ class AllForests extends Component{
                             showAddModal={showAddModal}
                             onOK={this.onOK}
                             onCancel={()=>{this.setState({ showAddModal: false  });}}
-                            token={token}
+                            // token={token}
                         />
                     </Content>
                     
