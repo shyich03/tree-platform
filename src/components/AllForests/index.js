@@ -9,6 +9,7 @@ import AddForm from '../ForestDetail/AddForm'
 import { connect } from 'react-redux';
 import * as actions from '../../store/actions/auth';
 import { Redirect } from "react-router-dom";
+import ForestInfo from './ForestInfo';
 
 const { Header, Content, Sider } = Layout;
 class AllForests extends Component {
@@ -20,7 +21,7 @@ class AllForests extends Component {
             cur_item: (props.location.state && props.location.state.cur_item) || {},
             type: props.user_type,
             showAddModal: false,
-            cur_item_region:null
+            cur_item_region: null
         }
     }
     async componentDidMount() {
@@ -32,24 +33,28 @@ class AllForests extends Component {
                 return o
             }),
         })
-        if(res.data.length>0){
-            if(this.isCurEmpty()){
-                this.setState({cur_item: this.state.data[0]})
+        if (res.data.length > 0) {
+            if (this.isCurEmpty()) {
+                this.setState({ cur_item: this.state.data[0] })
             }
             await this.getCurrentRegion(this.state.data[0].id)
         }
         console.log(res);
     }
-    getCurrentRegion = async (id)=>{
+
+    //get region data of the selected forest
+    getCurrentRegion = async (id) => {
         console.log("singel forest");
-        var res = await api.get('forest-single/'+id.toString())
+        var res = await api.get('forest-single/' + id.toString())
+        this.setState({ cur_item_region: res.data })
         console.log(res);
 
     }
-    isCurEmpty=() =>{
-        const {cur_item}=this.state
-        for(var prop in cur_item) {
-            if(cur_item.hasOwnProperty(prop))
+    isCurEmpty = () => {
+        const { cur_item } = this.state
+        for (var prop in cur_item) {
+            if (cur_item.hasOwnProperty(prop))
+                console.log(cur_item)
                 return false;
         }
         return true;
@@ -66,7 +71,9 @@ class AllForests extends Component {
             this.setState({ menu: e.key })
         }
     }
-    handleSelectForest = async e=>{
+
+    //selecting a forest
+    handleSelectForest = async e => {
         // console.log(e,this.state.data.find(element => element.key == e.key));
         this.setState({ cur_item: this.state.data.find(element => element.key == e.key) })
         // console.log([this.state.cur_item.key]);
@@ -85,14 +92,14 @@ class AllForests extends Component {
     addNewForest = () => {
         this.setState({ showAddModal: true })
     }
-    onOK=async (forest_id)=>{
+    onOK = async (forest_id) => {
         var res = await api.get('forest/')
-        var data=res.data.map((e)=>{
+        var data = res.data.map((e) => {
             var o = Object.assign({}, e)
-            o.key = o.id.toString() 
+            o.key = o.id.toString()
             return o
         })
-        var cur = data.find(e=>e.id=== forest_id)
+        var cur = data.find(e => e.id === forest_id)
         this.setState({
             data: data,
             showAddModal: false,
@@ -118,7 +125,7 @@ class AllForests extends Component {
         )
     }
     render() {
-        const { data, cur_item, showAddModal } = this.state
+        const { data, cur_item, showAddModal, cur_item_region } = this.state
         const { type, token } = this.props
         console.log(this.props, 'allf');
         // const { type } = this.props.location.state
@@ -168,18 +175,17 @@ class AllForests extends Component {
                             minHeight: 280,
                         }}
                     >
-                        {!this.isCurEmpty() ? (<div>
-                            <Image src={img} width={900} />
-                            <Image src={cur_item.gee_image} width={900} />
-                            <div>{cur_item.desc}</div>
+                        {!this.isCurEmpty() && cur_item_region ? (<div>
+                            <ForestInfo item={cur_item} region={cur_item_region}/>
+                            {/* <div>{cur_item.desc}</div> */}
                             {this.buttons()}</div>
                         ) : (<div>No Forest</div>)}
 
                         <AddForm
                             showAddModal={showAddModal}
                             onOK={this.onOK}
-                            onCancel={()=>{this.setState({ showAddModal: false  });}}
-                            // token={token}
+                            onCancel={() => { this.setState({ showAddModal: false }); }}
+                        // token={token}
                         />
                     </Content>
 
