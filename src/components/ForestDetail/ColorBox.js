@@ -24,6 +24,7 @@ export default class ColorBox extends Component{
         return (
         <div style={{
             backgroundColor:color,
+            opacity:0.5,
             visibility:colorCode==0?"hidden":"visible",
             width: size.toString()+"px",
             height: size.toString()+"px",
