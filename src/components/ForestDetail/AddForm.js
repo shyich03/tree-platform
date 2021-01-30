@@ -11,10 +11,7 @@ import { connect } from 'react-redux';
 class AddForm extends Component{
     constructor(props) {
         super(props);
-        var regionFormData=[]
-        for(var i =1; i<4;i++){
-            regionFormData.push({'attr1':0, 'attr2':0, 'attr3':0, 'attr4':0, "description":""})
-        }
+        
         this.state = {
             mouseDown: false,
             gridData: [[]],
@@ -29,13 +26,20 @@ class AddForm extends Component{
             showMarker:false,
             img:null,
             resize:0,
-            regionFormData:regionFormData,
+            regionFormData: this.regionFormData(),
             forestID:null
         }
         this.form = React.createRef();
         // this.regionForm = [React.createRef(),React.createRef(),React.createRef()];
         this.imgRef = React.createRef()
         this.boxRef = React.createRef()
+    }
+    regionFormData=()=>{
+        var x= []
+        for(var i =1; i<4;i++){
+            x.push({'attr1':0, 'attr2':0, 'attr3':0, 'attr4':0, "description":""})
+        }
+        return(x)
     }
     handleResize = e => {
         this.setState({resize: this.state.resize+1})
@@ -149,7 +153,6 @@ class AddForm extends Component{
         }
         const submitImageMask=async ()=>{
             const {gridData, regionFormData, forestID,size} = this.state
-            this.setState({showMarker:false})
             console.log("region form", regionFormData);
             // var meta_data = this.formRef.map((ref, index)=>{{str(index): }})
             var res = await api.post('create-regions', 
@@ -165,7 +168,11 @@ class AddForm extends Component{
                         'Authorization': 'Authorization: Token '+token
                     }
                 })
-            console.log(res);
+            console.log(res, this.regionFormData());
+            this.setState({
+                showMarker:false,
+                regionFormData: this.regionFormData()
+            })
             onOK(forestID)
            
         }
