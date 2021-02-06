@@ -33,7 +33,7 @@ const ForestInfo = ({ item, region }) => {
 
 
     const calculateSize = () => {
-        console.log(size+ "$$$$$$$$$$$$$$$$$$$$$$$$")
+        // console.log(size+ "$$$$$$$$$$$$$$$$$$$$$$$$")
         if (imgRef.current) {
             var rect = imgRef.current.getBoundingClientRect()
             var height = rect.height==0 ? rect.width : rect.height

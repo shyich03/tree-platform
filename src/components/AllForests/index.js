@@ -10,6 +10,7 @@ import { connect } from 'react-redux';
 import * as actions from '../../store/actions/auth';
 import { Redirect } from "react-router-dom";
 import ForestInfo from './ForestInfo';
+import NewAddForm from '../ForestDetail/NewAddForm'
 
 const { Header, Content, Sider } = Layout;
 class AllForests extends Component {
@@ -21,7 +22,8 @@ class AllForests extends Component {
             cur_item: (props.location.state && props.location.state.cur_item) || {},
             type: props.user_type,
             showAddModal: false,
-            cur_item_region: null
+            cur_item_region: null,
+            showNewAddModal: false
         }
     }
     async componentDidMount() {
@@ -66,6 +68,8 @@ class AllForests extends Component {
             this.props.history.push("/")
         } else if (e.key == "add") {
             this.setState({ showAddModal: true })
+        } else if (e.key == "add2") {
+            this.setState({ showNewAddModal: true })
         }
         else {
             this.setState({ menu: e.key })
@@ -125,7 +129,7 @@ class AllForests extends Component {
         )
     }
     render() {
-        const { data, cur_item, showAddModal, cur_item_region } = this.state
+        const { data, cur_item, showAddModal, cur_item_region, showNewAddModal} = this.state
         const { type, token } = this.props
         console.log(this.props, 'allf');
         // const { type } = this.props.location.state
@@ -151,6 +155,9 @@ class AllForests extends Component {
                         <Menu.Item style={{ float: "right" }} key="logout">Log out</Menu.Item>
                         {type == 'Owner' &&
                             <Menu.Item style={{ float: "right" }} key="add">Add New</Menu.Item>
+                        }
+                        {type == 'Owner' &&
+                            <Menu.Item style={{ float: "right" }} key="add2">Add New2</Menu.Item>
                         }
                     </Menu>
                 </Header>
@@ -185,6 +192,11 @@ class AllForests extends Component {
                             showAddModal={showAddModal}
                             onOK={this.onOK}
                             onCancel={() => { this.setState({ showAddModal: false }); }}
+                        // token={token}
+                        />
+                        <NewAddForm
+                            showAddModal={showNewAddModal}
+                            onCancel={() => { this.setState({ showNewAddModal: false }); }}
                         // token={token}
                         />
                     </Content>
