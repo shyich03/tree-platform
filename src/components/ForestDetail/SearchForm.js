@@ -1,10 +1,12 @@
 import React from 'react'
 import { Form, Input, InputNumber, Button } from 'antd';
 
-const SearchForm = () => {
+const SearchForm = ({ onReturn, onFinish, onFinishFailed }) => {
     return (
         <Form
             style={{ width: '80%' }}
+            onFinish={onFinish}
+            onFinishFailed={onFinishFailed}
         >
             {/* <Form.Item
                 name="name"
@@ -62,6 +64,16 @@ const SearchForm = () => {
             >
                 <InputNumber />
             </Form.Item>
+
+            <Form.Item>
+                <Button key="back" onClick={onReturn}>
+                    Return
+          </Button>
+                <Button key="submit" htmlType="submit" type="primary">
+                    Submit
+          </Button>
+            </Form.Item>
+
         </Form>
     )
 }
