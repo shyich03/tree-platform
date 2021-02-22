@@ -2,13 +2,19 @@ import React from 'react'
 import { Form, Input, InputNumber, Button } from 'antd';
 
 const SearchForm = ({ onReturn, onFinish, onFinishFailed }) => {
+
+    const buttonStyle = {
+        float: "right",
+        marginLeft: "30px"
+    }
+
     return (
         <Form
-            style={{ width: '80%' }}
+            style={{ width: '100%' }}
             onFinish={onFinish}
             onFinishFailed={onFinishFailed}
         >
-            {/* <Form.Item
+            <Form.Item
                 name="name"
                 label="Forest name"
                 rules={[
@@ -31,7 +37,7 @@ const SearchForm = ({ onReturn, onFinish, onFinishFailed }) => {
                 ]}
             >
                 <Input />
-            </Form.Item> */}
+            </Form.Item>
             <Form.Item
                 name="lat"
                 label="latitude"
@@ -66,11 +72,11 @@ const SearchForm = ({ onReturn, onFinish, onFinishFailed }) => {
             </Form.Item>
 
             <Form.Item>
-                <Button key="back" onClick={onReturn}>
-                    Return
-          </Button>
-                <Button key="submit" htmlType="submit" type="primary">
+                <Button style={buttonStyle} key="submit" htmlType="submit" type="primary">
                     Submit
+          </Button>
+                <Button style={buttonStyle} key="back" onClick={onReturn}>
+                    Back
           </Button>
             </Form.Item>
 

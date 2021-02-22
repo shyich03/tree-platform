@@ -107,6 +107,7 @@ class AllForests extends Component {
         this.setState({
             data: data,
             showAddModal: false,
+            showNewAddModal: false,
             cur_item: cur
         })
         await this.getCurrentRegion(forest_id)
@@ -153,11 +154,11 @@ class AllForests extends Component {
                         }
                         <Menu.Item key="all">All forests</Menu.Item>
                         <Menu.Item style={{ float: "right" }} key="logout">Log out</Menu.Item>
-                        {type == 'Owner' &&
+                        {/* {type == 'Owner' &&
                             <Menu.Item style={{ float: "right" }} key="add">Add New</Menu.Item>
-                        }
+                        } */}
                         {type == 'Owner' &&
-                            <Menu.Item style={{ float: "right" }} key="add2">Add New2</Menu.Item>
+                            <Menu.Item style={{ float: "right" }} key="add2">Add New</Menu.Item>
                         }
                     </Menu>
                 </Header>
@@ -188,14 +189,15 @@ class AllForests extends Component {
                             {this.buttons()}</div>
                         ) : (<div>No Forest</div>)}
 
-                        <AddForm
+                        {/* <AddForm
                             showAddModal={showAddModal}
                             onOK={this.onOK}
                             onCancel={() => { this.setState({ showAddModal: false }); }}
                         // token={token}
-                        />
+                        /> */}
                         <NewAddForm
                             showAddModal={showNewAddModal}
+                            onOK={this.onOK}
                             onCancel={() => { this.setState({ showNewAddModal: false }); }}
                         // token={token}
                         />

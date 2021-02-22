@@ -5,7 +5,15 @@ import { Button } from 'antd';
 
 const SearchMap = ({ lat, lng, onReturn, onSubmit }) => {
 
+    const buttonStyle = {
+        float:"right",
+        marginLeft:"30px",
+        marginTop:"25px"
+    }
+
     const defaultRecHeight = 0.2
+
+    const {REACT_APP_GOOGLE_KEY} = process.env
 
     // const [top, setTop] = useState(lat + defaultRecHeight)
     // const [left, setLeft] = useState(lng - defaultRecHeight)
@@ -36,14 +44,14 @@ const SearchMap = ({ lat, lng, onReturn, onSubmit }) => {
         console.log('rectangle: ', rectangle)
     }
     return (
-        <div style={{ height: '70vh', width: '100%' }}>
+        <div style={{ height: '80vh', width: '100%' }}>
             <LoadScript
-                googleMapsApiKey={'AIzaSyB3gxBKxepMLgDMHxUJFjTn8YBp3UcqCL0'}
+                googleMapsApiKey={`${REACT_APP_GOOGLE_KEY}`}
             >
                 <GoogleMap
                     mapContainerStyle={{
                         width: '100%',
-                        height: '100%'
+                        height: '90%'
                     }}
                     center={{
                         lat: lat,
@@ -65,11 +73,11 @@ const SearchMap = ({ lat, lng, onReturn, onSubmit }) => {
                     />
                 </GoogleMap>
             </LoadScript>
-            <Button key="back" onClick={onReturn}>
-                Return
-          </Button>
-            <Button key="submit" onClick={() => onSubmit(top, left, right, bottom)} type="primary">
+            <Button style={buttonStyle} key="submit" onClick={() => onSubmit(top, left, right, bottom)} type="primary">
                 Submit
+          </Button>
+          <Button style={buttonStyle} key="back" onClick={onReturn}>
+                Back
           </Button>
         </div>
     )

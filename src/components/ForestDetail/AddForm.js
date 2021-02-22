@@ -53,12 +53,13 @@ class AddForm extends Component {
     componentWillUnmount() {
         window.removeEventListener("resize", this.handleResize);
     }
+
     calculateSize() {
         if (this.imgRef.current) {
             var rect = this.imgRef.current.getBoundingClientRect()
             var height = rect.height
             var width = rect.width
-            var size = Math.ceil(Math.sqrt(height * width / 200))
+            var size = Math.ceil(Math.sqrt(height * width / 800))
             var iMax = Math.ceil(height / size)
             var jMax = Math.ceil(width / size)
             this.setState({
@@ -74,6 +75,7 @@ class AddForm extends Component {
             return { a, a }
         }
     }
+
     onImgLoad() {
         console.log("img load");
         var { iMax, jMax } = this.calculateSize()
@@ -114,13 +116,15 @@ class AddForm extends Component {
         }
 
     }
+
     onMouseDown(e) {
         this.setState({ mouseDown: true })
         console.log("down");
     }
     onMouseUp(e) {
         this.setState({ mouseDown: false })
-        console.log("up");
+        console.log("$$$$$$$$$$$$$$$$$$$$$")
+        console.log(e);
     }
 
     render() {
@@ -131,6 +135,8 @@ class AddForm extends Component {
         const onFinishFailed = (errorInfo) => {
             console.log('Failed:', errorInfo);
         };
+
+        //$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
         const submitForm = async (v) => {
             console.log("submit", v);
             this.setState({ loading: true })
@@ -148,8 +154,6 @@ class AddForm extends Component {
                 img: res.data.gee_image,
                 forestID: res.data.id
             })
-
-
         }
         const submitImageMask = async () => {
             const { gridData, regionFormData, forestID, size } = this.state
@@ -179,7 +183,7 @@ class AddForm extends Component {
         const changeRegionData = (groupNum, value) => {
             let item = this.state.regionFormData
             item[groupNum] = { ...item[groupNum], ...value }
-            this.setState({ changeRegionData: item })
+            this.setState({ regionFormData: item })
         }
         const spin = loading ?
             <div style={{ width: "100%", height: "100%", zIndex: '3', position: "absolute", backgroundColor: '#FFF', opacity: 0.5, alignItems: 'center', }}>
@@ -195,7 +199,7 @@ class AddForm extends Component {
                 onCancel={onCancel}
                 footer={null}>
                 {!showMarker ?
-                    <div style={{ position: "relative" }} >
+                    <div style={{ position: "relative" }}>
                         {spin}
                         <NewForestForm
                             formRef={this.form}
