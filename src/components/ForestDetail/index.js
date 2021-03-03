@@ -29,8 +29,16 @@ class ForestDetail extends Component{
         history.push({
         pathname : "/overview",
         state: {
-            cur_item: this.state.item,
-            type: this.state.type
+            cur_item: this.state.item
+        }
+        })
+    }
+    onClickFund=()=>{
+        const {history} = this.props
+        history.push({
+        pathname : "/funding",
+        state: {
+            forest: this.state.item
         }
         })
     }

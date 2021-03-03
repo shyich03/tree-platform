@@ -199,7 +199,9 @@ const NewAddForm = ({ showAddModal, onOK, onCancel, token }) => {
         fileData.append("lat2",bot)
         fileData.append("long2",right)
         fileData.append("maps_image",img)
-        fileData.append("metadata_file",file)
+        if (file){
+            fileData.append("metadata_file",file)
+        }
         var res = await api.post('forest/', fileData,
         {
             headers: {

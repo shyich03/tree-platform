@@ -21,7 +21,7 @@ export default () => {return(
         <Route path="/overview/forest" component={Forest} />
         {/* <Route path="/overview/add" component={Add} /> */}
         <Route path="/overview" component={AllForests} />
-        <Route path="/overview/forest/funding" component={Funding} />
+        <Route path="/funding/:id" component={Funding} />
         {/* <Route path="/UserSetting">
         <FunderLogin />
         </Route> */}

@@ -8,7 +8,7 @@ import { api } from '../../apis'
 import AddForm from '../ForestDetail/AddForm'
 import { connect } from 'react-redux';
 import * as actions from '../../store/actions/auth';
-import { Redirect } from "react-router-dom";
+import { Redirect, Link} from "react-router-dom";
 import ForestInfo from './ForestInfo';
 import NewAddForm from '../ForestDetail/NewAddForm'
 
@@ -88,14 +88,14 @@ class AllForests extends Component {
         history.push({
             pathname: "/overview/forest",
             state: {
-                item: this.state.cur_item,
-                type: this.state.type
+                item: this.state.cur_item
             }
         })
     }
     addNewForest = () => {
         this.setState({ showAddModal: true })
     }
+    
     onOK = async (forest_id) => {
         var res = await api.get('forest/')
         var data = res.data.map((e) => {
@@ -122,7 +122,7 @@ class AllForests extends Component {
                 </div>
                 : type == "Funder" ?
                     <div>
-                        <Button style={{ float: "right", margin: "50px 30px" }} onClick={this.onClickFund}>Fund</Button>
+                        
                         <Button style={{ float: "right", margin: "50px 30px" }} onClick={this.showForestDetail}>Details</Button>
                     </div>
                     :
@@ -146,7 +146,7 @@ class AllForests extends Component {
                         {type == 'Funder' &&
                             <Menu.Item key="sponser">Sponsering</Menu.Item>
                         }
-                        {type == 'Authen' &&
+                        {type == 'Auth' &&
                             <Menu.Item key="pending">Pending confirmation</Menu.Item>
                         }
                         {type == 'Owner' &&
