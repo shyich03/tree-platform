@@ -91,7 +91,7 @@ const NewAddForm = ({ showAddModal, onOK, onCancel, token }) => {
     }
 
     const onImgLoad = () => {
-        console.log("img load");
+        // console.log("img load");
         var { iMax, jMax } = calculateSize()
         var f = new Array();
         for (var i = 0; i < iMax; i++) {
@@ -133,14 +133,14 @@ const NewAddForm = ({ showAddModal, onOK, onCancel, token }) => {
                 var rect = imgRef.current.getBoundingClientRect()
                 var i = Math.floor((e.pageY - rect.top - window.pageYOffset) / size)
                 var j = Math.floor((e.pageX - rect.left - window.pageXOffset) / size)
-                console.log(rect);
+                // console.log(rect);
                 if (i >= 0 && j >= 0 && i < iMax && j < jMax && newData[i][j] != color) {
                     newData[i][j] = color
                     // this.setState({mouseMove:false})
-                    console.log("set false");
+                    // console.log("set false");
                     // setTimeout(() => {
                     //     this.setState({mouseMove:true})
-                    //     console.log("settrue");
+                    //     // console.log("settrue");
                     // }, 0.1);
                     setGridData(newData)
                 }
@@ -150,11 +150,11 @@ const NewAddForm = ({ showAddModal, onOK, onCancel, token }) => {
 
     const onMouseDown = (e) => {
         setMouseDown(true)
-        console.log("down");
+        // console.log("down");
     }
     const onMouseUp = (e) => {
         setMouseDown(false)
-        console.log(e);
+        // console.log(e);
     }
 
 
@@ -165,7 +165,7 @@ const NewAddForm = ({ showAddModal, onOK, onCancel, token }) => {
         };
         // const clickListener = () => {
         //     calculateSize()
-        //     console.log(calculateSize())
+        //     // console.log(calculateSize())
         // };
         window.addEventListener('resize', resizeListener);
         // window.addEventListener('click', clickListener);
@@ -176,18 +176,18 @@ const NewAddForm = ({ showAddModal, onOK, onCancel, token }) => {
     }, [])
 
     const onFinalSubmit = async (v) => {
-        console.log("submit", v);
+        // console.log("submit", v);
         setLoading(true)
 
         // first ------------------------
-        console.log(name)
-        console.log(description)
-        console.log(token)
-        console.log(top)
-        console.log(left)
-        console.log(bot)
-        console.log(right)
-        console.log(img)
+        // console.log(name)
+        // console.log(description)
+        // console.log(token)
+        // console.log(top)
+        // console.log(left)
+        // console.log(bot)
+        // console.log(right)
+        // console.log(img)
         var res = await api.post('forest/',
             {
                 name: name,
@@ -203,10 +203,10 @@ const NewAddForm = ({ showAddModal, onOK, onCancel, token }) => {
             })
         var forestID = res.data.id
         // -------------------
-        console.log(gridData)
-        console.log(regionFormData)
-        console.log(forestID)
-        console.log(size)
+        // console.log(gridData)
+        // console.log(regionFormData)
+        // console.log(forestID)
+        // console.log(size)
         res = await api.post('create-regions',
             {
                 image_map: gridData,
@@ -221,7 +221,7 @@ const NewAddForm = ({ showAddModal, onOK, onCancel, token }) => {
                     'Authorization': 'Authorization: Token ' + token
                 }
             })
-        console.log(res, "res");
+        // console.log(res, "res");
         setLoading(false)
         setForestID(res.data.id)
         setShowImage(false)
@@ -231,7 +231,7 @@ const NewAddForm = ({ showAddModal, onOK, onCancel, token }) => {
     }
 
     // const submitImageMask = async () => {
-    //     console.log("region form", regionFormData);
+    //     // console.log("region form", regionFormData);
     //     // var meta_data = this.formRef.map((ref, index)=>{{str(index): }})
     //     var res = await api.post('create-regions',
     //         {
@@ -246,7 +246,7 @@ const NewAddForm = ({ showAddModal, onOK, onCancel, token }) => {
     //                 'Authorization': 'Authorization: Token ' + token
     //             }
     //         })
-    //     console.log(res, regionFormData());
+    //     // console.log(res, regionFormData());
     //     setRegionFormData(regionFormData())
     //     onOK(forestID)
     // }
@@ -264,7 +264,7 @@ const NewAddForm = ({ showAddModal, onOK, onCancel, token }) => {
     };
 
     const onFileChange = info => {
-        console.log(info)
+        // console.log(info)
         var newFile = null;
         switch (info.file.status) {
             case "uploading":
@@ -285,14 +285,14 @@ const NewAddForm = ({ showAddModal, onOK, onCancel, token }) => {
     //------------------------------------------------------------------------------------------
 
     const submitCoordinateFromMap = (t, l, r, b) => {
-        console.log(t + "---" + l + "---" + r + "---" + b)
+        // console.log(t + "---" + l + "---" + r + "---" + b)
         var zoomLevel = getZoomLevel(t, b, r, l)
         var image_dimension = getImgDimension(t - b, r - l)
         var img_url = "https://maps.googleapis.com/maps/api/staticmap?center="
             + (t + b) / 2 + "," + (r + l) / 2 + "&zoom=" + zoomLevel
             + "&size=" + image_dimension[1] + "x" + image_dimension[0] +
             "&maptype=satellite&key=" + `${REACT_APP_GOOGLE_KEY}`
-        console.log(img_url)
+        // console.log(img_url)
         setTop(t)
         setLeft(l)
         setBot(b)
@@ -308,15 +308,15 @@ const NewAddForm = ({ showAddModal, onOK, onCancel, token }) => {
         setName(v.name)
         setDescription(v.description)
         setShowMap(true)
-        console.log('Success:', v);
+        // console.log('Success:', v);
     }
 
     const onFinishFailed = (e) => {
-        console.log('Failed:', e);
+        // console.log('Failed:', e);
     }
 
     const submitCoordinateFromInput = (o) => {
-        console.log(o)
+        // console.log(o)
         // setLat(lat)
         // setLng(lng)
         setShowMap(true)
@@ -424,7 +424,7 @@ const NewAddForm = ({ showAddModal, onOK, onCancel, token }) => {
     )
 }
 const mapStateToProps = (state) => {
-    console.log(state);
+    // console.log(state);
     return {
         token: state.token
     }

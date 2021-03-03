@@ -41,22 +41,22 @@ class AllForests extends Component {
             }
             await this.getCurrentRegion(this.state.data[0].id)
         }
-        console.log(res);
+        // console.log(res);
     }
 
     //get region data of the selected forest
     getCurrentRegion = async (id) => {
-        console.log("singel forest");
+        // console.log("singel forest");
         var res = await api.get('forest-single/' + id.toString())
         this.setState({ cur_item_region: res.data })
-        console.log(res);
+        // console.log(res);
 
     }
     isCurEmpty = () => {
         const { cur_item } = this.state
         for (var prop in cur_item) {
             if (cur_item.hasOwnProperty(prop))
-                console.log(cur_item)
+                // console.log(cur_item)
                 return false;
         }
         return true;
@@ -64,7 +64,7 @@ class AllForests extends Component {
 
     handleMenuCLick = e => {
         if (e.key == "logout") {
-            console.log('this.props', this.props)
+            // console.log('this.props', this.props)
             this.props.history.push("/")
         } else if (e.key == "add") {
             this.setState({ showAddModal: true })
@@ -78,9 +78,9 @@ class AllForests extends Component {
 
     //selecting a forest
     handleSelectForest = async e => {
-        // console.log(e,this.state.data.find(element => element.key == e.key));
+        // // console.log(e,this.state.data.find(element => element.key == e.key));
         this.setState({ cur_item: this.state.data.find(element => element.key == e.key) })
-        // console.log([this.state.cur_item.key]);
+        // // console.log([this.state.cur_item.key]);
         await this.getCurrentRegion(e.key)
     }
     showForestDetail = () => {
@@ -113,7 +113,7 @@ class AllForests extends Component {
         await this.getCurrentRegion(forest_id)
     }
     buttons = () => {
-        const { type } = this.state
+        const { type } = this.props
         return (
             type == "Owner" ?
                 <div>
@@ -132,10 +132,10 @@ class AllForests extends Component {
     render() {
         const { data, cur_item, showAddModal, cur_item_region, showNewAddModal} = this.state
         const { type, token } = this.props
-        console.log(this.props, 'allf');
+        // console.log(this.props, 'allf');
         // const { type } = this.props.location.state
         if (!token) {
-            console.log("token", token);
+            // console.log("token", token);
             return <Redirect to="/" />
         }
         return (
@@ -213,7 +213,7 @@ class AllForests extends Component {
 }
 
 const mapStateToProps = (state) => {
-    console.log(state);
+    // console.log(state);
     return {
         type: state.user_type,
         token: state.token

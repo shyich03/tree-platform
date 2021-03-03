@@ -7,7 +7,7 @@ import Routes from "./Routes";
 
 export default class App extends Component {
   componentDidMount() {
-    console.log("adasfasd")
+    // console.log("adasfasd")
   }
   render(){
     return (

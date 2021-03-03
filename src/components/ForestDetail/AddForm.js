@@ -77,7 +77,7 @@ class AddForm extends Component {
     }
 
     onImgLoad() {
-        console.log("img load");
+        // console.log("img load");
         var { iMax, jMax } = this.calculateSize()
 
         var f = new Array();
@@ -102,14 +102,14 @@ class AddForm extends Component {
             var rect = this.imgRef.current.getBoundingClientRect()
             var i = Math.floor((e.pageY - rect.top - window.pageYOffset) / size)
             var j = Math.floor((e.pageX - rect.left - window.pageXOffset) / size)
-            console.log(rect);
+            // console.log(rect);
             if (i >= 0 && j >= 0 && i < iMax && j < jMax && newData[i][j] != color) {
                 newData[i][j] = color
                 // this.setState({mouseMove:false})
-                console.log("set false");
+                // console.log("set false");
                 // setTimeout(() => {
                 //     this.setState({mouseMove:true})
-                //     console.log("settrue");
+                //     // console.log("settrue");
                 // }, 0.1);
                 this.setState({ gridData: newData })
             }
@@ -119,26 +119,26 @@ class AddForm extends Component {
 
     onMouseDown(e) {
         this.setState({ mouseDown: true })
-        console.log("down");
+        // console.log("down");
     }
     onMouseUp(e) {
         this.setState({ mouseDown: false })
-        console.log("$$$$$$$$$$$$$$$$$$$$$")
-        console.log(e);
+        // console.log("$$$$$$$$$$$$$$$$$$$$$")
+        // console.log(e);
     }
 
     render() {
-        console.log("render");
+        // console.log("render");
         const { size, loading, jMax, img, showMarker, gridData, regionFormData } = this.state
         const { showAddModal, onCancel, onOK, token } = this.props
-        console.log(regionFormData, "regionFormData");
+        // console.log(regionFormData, "regionFormData");
         const onFinishFailed = (errorInfo) => {
-            console.log('Failed:', errorInfo);
+            // console.log('Failed:', errorInfo);
         };
 
         //$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
         const submitForm = async (v) => {
-            console.log("submit", v);
+            // console.log("submit", v);
             this.setState({ loading: true })
             var res = await api.post('forest/',
                 {
@@ -146,7 +146,7 @@ class AddForm extends Component {
                     varified: false,
                     user_token: token
                 })
-            console.log(res, "res");
+            // console.log(res, "res");
             this.form.current.resetFields()
             this.setState({
                 showMarker: true,
@@ -157,7 +157,7 @@ class AddForm extends Component {
         }
         const submitImageMask = async () => {
             const { gridData, regionFormData, forestID, size } = this.state
-            console.log("region form", regionFormData);
+            // console.log("region form", regionFormData);
             // var meta_data = this.formRef.map((ref, index)=>{{str(index): }})
             var res = await api.post('create-regions',
                 {
@@ -172,7 +172,7 @@ class AddForm extends Component {
                         'Authorization': 'Authorization: Token ' + token
                     }
                 })
-            console.log(res, this.regionFormData());
+            // console.log(res, this.regionFormData());
             this.setState({
                 showMarker: false,
                 regionFormData: this.regionFormData()
@@ -263,7 +263,7 @@ class AddForm extends Component {
         )
     }
 } const mapStateToProps = (state) => {
-    console.log(state);
+    // console.log(state);
     return {
         token: state.token
     }

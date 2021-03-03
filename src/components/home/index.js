@@ -3,20 +3,20 @@ import {Layout, Button, List} from "antd"
 export default class Home extends Component{
   
   // componentDidMount(){
-  //   // console.log("ho/me mount")
+  //   // // console.log("ho/me mount")
     
   // }
   // componentWillUnmount(){
-  //     // console.log("home unmount")
+  //     // // console.log("home unmount")
   // }
   // componentWillMount(){
-  //     // console.log("home will mount")
+  //     // // console.log("home will mount")
   // }
   // loginBlock=(linkStr, descStr)=>{
   //     return (
   //         <Button href={linkStr}>descStr</Button>
   //     )
-      // console.log(e.screenX, e.screenY );
+      // // console.log(e.screenX, e.screenY );
   // }
  
   render(){

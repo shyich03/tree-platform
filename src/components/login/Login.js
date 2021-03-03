@@ -12,18 +12,18 @@ class Login extends Component{
   
   
   componentDidMount(){
-    console.log("login mount")
+    // console.log("login mount")
   }
   componentWillUnmount(){
-    console.log("login unmount")
+    // console.log("login unmount")
   }
   
   render() {
     const onFinish = (values) => {
       const {history, onAuth, type} = this.props
-      console.log(this.props);
+      // console.log(this.props);
       onAuth(values.username, values.password, type, (res)=>{
-        console.log('Success:', values, res);
+        // console.log('Success:', values, res);
         history.push({
           pathname : "/overview",
         })
@@ -32,7 +32,7 @@ class Login extends Component{
     };
 
     const onFinishFailed = (errorInfo) => {
-      console.log('Failed:', errorInfo);
+      // console.log('Failed:', errorInfo);
     };
     
     const handleRegister = ()=>{
@@ -41,7 +41,7 @@ class Login extends Component{
         type=="Funder"? "/FunderRegister":
         type=="Owner"? "/OwnerRegister":
         "/AuthRegister"
-      console.log('register',type);
+      // console.log('register',type);
       history.push({
         pathname : path,
       })

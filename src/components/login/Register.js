@@ -10,24 +10,24 @@ class Register extends Component{
   
   
 //   componentDidMount(){
-//     console.log("regid mount")
+//     // console.log("regid mount")
 //   }
 //   componentWillUnmount(){
-//     console.log("login unmount")
+//     // console.log("login unmount")
 //   }
   
   render() {
     const onFinish = (values) => {
       const {history, onAuth, type} = this.props
       onAuth(values, type)
-      console.log('Success:', values);
+      // console.log('Success:', values);
       history.push({
         pathname : "/"+type+"login",
       })
     };
 
     const onFinishFailed = (errorInfo) => {
-      console.log('Failed:', errorInfo);
+      // console.log('Failed:', errorInfo);
     };
 
     return (
