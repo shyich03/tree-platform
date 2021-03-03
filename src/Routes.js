@@ -22,6 +22,9 @@ export default () => {return(
         {/* <Route path="/overview/add" component={Add} /> */}
         <Route path="/overview" component={AllForests} />
         <Route path="/overview/forest/funding" component={Funding} />
+        {/* <Route path="/UserSetting">
+        <FunderLogin />
+        </Route> */}
         <Route path="/FunderRegister" component={FunderRegister} />
         <Route path="/OwnerRegister" component={OwnerRegister} />
         <Route path="/AuthRegister" component={AuthRegister} />

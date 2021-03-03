@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react"
 import SearchForm from "./SearchForm"
 import SearchMap from "./SearchMap"
-import { Form, Input, Modal, Button, Upload, Spin, Row, message } from 'antd';
+import { Modal, Button, Upload, Spin, Row } from 'antd';
 import { InboxOutlined } from '@ant-design/icons';
 import { api } from '../../apis'
 import RegionForm from './RegionForm'
@@ -188,19 +188,37 @@ const NewAddForm = ({ showAddModal, onOK, onCancel, token }) => {
         // console.log(bot)
         // console.log(right)
         // console.log(img)
-        var res = await api.post('forest/',
-            {
-                name: name,
-                description: description,
-                varified: false,
-                user_token: token,
-                lat1: top,
-                long1: left,
-                lat2: bot,
-                long2: right,
-                maps_image: img,
-                // metadata_file: file,
-            })
+        // console.log(file)
+        const fileData = new FormData()
+        fileData.append("name",name)
+        fileData.append("description",description)
+        fileData.append("varified",false)
+        fileData.append("user_token",token)
+        fileData.append("lat1",top)
+        fileData.append("long1",left)
+        fileData.append("lat2",bot)
+        fileData.append("long2",right)
+        fileData.append("maps_image",img)
+        fileData.append("metadata_file",file)
+        var res = await api.post('forest/', fileData,
+        {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            }
+        })
+        // var res = await api.post('forest/',
+        //     {
+        //         name: name,
+        //         description: description,
+        //         varified: false,
+        //         user_token: token,
+        //         lat1: top,
+        //         long1: left,
+        //         lat2: bot,
+        //         long2: right,
+        //         maps_image: img,
+        //         metadata_file: fileData,
+        //     })
         var forestID = res.data.id
         // -------------------
         // console.log(gridData)
@@ -213,7 +231,6 @@ const NewAddForm = ({ showAddModal, onOK, onCancel, token }) => {
                 data: regionFormData,
                 forest_id: forestID,
                 block_size: size,
-                // metadata_file: file
             },
             {
                 headers: {
@@ -265,20 +282,21 @@ const NewAddForm = ({ showAddModal, onOK, onCancel, token }) => {
 
     const onFileChange = info => {
         // console.log(info)
+        // console.log(info.file.originFileObj)
         var newFile = null;
+        if(info){
         switch (info.file.status) {
             case "uploading":
-                newFile = info.file;
                 break;
             case "done":
-                newFile = info.file;
+                newFile = info.file.originFileObj;
+                setFile(newFile)
+                setFileList([newFile])
                 break;
             default:
                 // error or removed
                 newFile = null;
-        }
-        setFile(newFile)
-        setFileList([newFile])
+        }}
     };
 
 
@@ -399,6 +417,8 @@ const NewAddForm = ({ showAddModal, onOK, onCancel, token }) => {
                         <Dragger
                             fileList={fileList}
                             customRequest={dummyRequest}
+                            multiple={false}
+                            accept={".zip"}
                             onChange={onFileChange}
                         >
                             <p className="ant-upload-drag-icon">

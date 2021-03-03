@@ -1,9 +1,11 @@
 import React, { useState, useRef, useEffect } from "react"
-import { Descriptions, Row, Col, Divider } from 'antd';
+import { Descriptions, Row, Col, Divider, Button } from 'antd';
 import file from '../../tree_info.pdf'
 
 import 'antd/dist/antd.css';
 import ForestRegionInfo from "./ForestRegionInfo";
+import HansenImg from "./HansenImg";
+import ForestMap from "./ForestMap";
 
 const ForestInfo = ({ item, region }) => {
 
@@ -12,6 +14,8 @@ const ForestInfo = ({ item, region }) => {
 
 
     const [size, setSize] = useState(50)
+    const [showHansenImg, setShowHansenImg] = useState(false)
+    const [showForestMap, setShowForestMap] = useState(false)
 
     const imgRef = useRef()
 
@@ -60,10 +64,15 @@ const ForestInfo = ({ item, region }) => {
                     src={item.maps_image}
                     ref={imgRef}
                     style={{ "width": "50%", zIndex: "1" }} />
+                <div>
+                    <Button style={{ margin: "10px 0 -15px 0" }} onClick={() => setShowHansenImg(true)}>Hansen Dataset Image</Button>
+                    <Button style={{ marginLeft: "10px" }} onClick={() => setShowForestMap(true)}>Show Google Map</Button>
+                    {/* <Button href={item.metadata_file} download>{item.metadata_file.substring(item.metadata_file.indexOf('/files/')+7)}</Button> */}
+                    <Button type="primary" style={{ marginLeft: "10px" }} href={item.metadata_file} download>{"Download Forest Info File"}</Button>
+                </div>
                 {region.lenght != 0 &&
                     <>
                         <Divider orientation="left">Forest Region Info</Divider>
-                        <a href={file} download>tree_info</a>
                         <Row >
                             <ForestRegionInfo color={1} region={region[0]} size={size} />
                             <ForestRegionInfo color={2} region={region[1]} size={size} />
@@ -73,6 +82,9 @@ const ForestInfo = ({ item, region }) => {
                 }
 
             </div>
+            <HansenImg hansenImg={item.gee_image} showImgModel={showHansenImg} onCancel={() => setShowHansenImg(false)} />
+            <ForestMap showForestMap={showForestMap} name={item.name} lat1={item.lat1} lat2={item.lat2}
+                lng1={item.long1} lng2={item.long2} zoom={10} onCancel={() => setShowForestMap(false)} />
         </div >
     )
 }
