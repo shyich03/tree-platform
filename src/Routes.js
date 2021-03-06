@@ -5,6 +5,7 @@ import AllForests from './components/AllForests';
 import Home from './components/home';
 // import Add from './components/ForestDetail/AddForest';
 import Forest from './components/ForestDetail';
+import Funding from './components/Funding'
 
 export default () => {return(
     <Switch>
@@ -20,6 +21,7 @@ export default () => {return(
         <Route path="/overview/forest" component={Forest} />
         {/* <Route path="/overview/add" component={Add} /> */}
         <Route path="/overview" component={AllForests} />
+        <Route path="/funding/:id" component={Funding} />
         {/* <Route path="/UserSetting">
         <FunderLogin />
         </Route> */}

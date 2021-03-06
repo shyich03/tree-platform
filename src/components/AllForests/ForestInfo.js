@@ -9,8 +9,8 @@ import ForestMap from "./ForestMap";
 
 const ForestInfo = ({ item, region }) => {
 
-    console.log("1222222222222222")
-    console.log(region)
+    // console.log("1222222222222222")
+    // console.log(region)
 
 
     const [size, setSize] = useState(50)
@@ -26,7 +26,7 @@ const ForestInfo = ({ item, region }) => {
         };
         // const clickListener = () => {
         //     calculateSize()
-        //     console.log(calculateSize())
+        //     // console.log(calculateSize())
         // };
         window.addEventListener('resize', resizeListener);
         // window.addEventListener('click', clickListener);
@@ -38,7 +38,7 @@ const ForestInfo = ({ item, region }) => {
 
 
     const calculateSize = () => {
-        // console.log(size+ "$$$$$$$$$$$$$$$$$$$$$$$$")
+        // // console.log(size+ "$$$$$$$$$$$$$$$$$$$$$$$$")
         if (imgRef.current) {
             var rect = imgRef.current.getBoundingClientRect()
             var height = rect.height == 0 ? rect.width : rect.height
@@ -46,8 +46,8 @@ const ForestInfo = ({ item, region }) => {
             var width = rect.width
             var size = Math.ceil(Math.sqrt(height * width / 200))
             setSize(size)
-            // console.log(height + "+++" + width)
-            console.log(rect)
+            // // console.log(height + "+++" + width)
+            // console.log(rect)
             return { size }
         }
         return (1000)

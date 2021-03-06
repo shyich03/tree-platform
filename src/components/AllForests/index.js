@@ -8,7 +8,7 @@ import { api } from '../../apis'
 import AddForm from '../ForestDetail/AddForm'
 import { connect } from 'react-redux';
 import * as actions from '../../store/actions/auth';
-import { Redirect } from "react-router-dom";
+import { Redirect, Link} from "react-router-dom";
 import ForestInfo from './ForestInfo';
 import NewAddForm from '../ForestDetail/NewAddForm'
 import Filter from '../Setting/Filter';
@@ -47,30 +47,30 @@ class AllForests extends Component {
             }
             await this.getCurrentRegion(this.state.data[0].id)
         }
-        console.log(res);
+        // console.log(res);
     }
 
     //get region data of the selected forest
     getCurrentRegion = async (id) => {
-        console.log("singel forest");
+        // console.log("singel forest");
         var res = await api.get('forest-single/' + id.toString())
         this.setState({ cur_item_region: res.data })
-        console.log(res);
+        // console.log(res);
 
     }
     isCurEmpty = () => {
         const { cur_item } = this.state
         for (var prop in cur_item) {
             if (cur_item.hasOwnProperty(prop))
-                console.log(cur_item)
-            return false;
+                // console.log(cur_item)
+                return false;
         }
         return true;
     }
 
     handleMenuCLick = e => {
         if (e.key == "logout") {
-            console.log('this.props', this.props)
+            // console.log('this.props', this.props)
             this.props.history.push("/")
         } else if (e.key == "add") {
             this.setState({ showAddModal: true })
@@ -86,9 +86,9 @@ class AllForests extends Component {
 
     //selecting a forest
     handleSelectForest = async e => {
-        // console.log(e,this.state.data.find(element => element.key == e.key));
+        // // console.log(e,this.state.data.find(element => element.key == e.key));
         this.setState({ cur_item: this.state.data.find(element => element.key == e.key) })
-        // console.log([this.state.cur_item.key]);
+        // // console.log([this.state.cur_item.key]);
         await this.getCurrentRegion(e.key)
     }
     showForestDetail = () => {
@@ -96,14 +96,14 @@ class AllForests extends Component {
         history.push({
             pathname: "/overview/forest",
             state: {
-                item: this.state.cur_item,
-                type: this.state.type
+                item: this.state.cur_item
             }
         })
     }
     addNewForest = () => {
         this.setState({ showAddModal: true })
     }
+    
     onOK = async (forest_id) => {
         var res = await api.get('forest/')
         var data = res.data.map((e) => {
@@ -139,7 +139,7 @@ class AllForests extends Component {
     //--------------------------------------------------------------------------------
 
     buttons = () => {
-        const { type } = this.state
+        const { type } = this.props
         return (
             type == "Owner" ?
                 <div>
@@ -148,7 +148,7 @@ class AllForests extends Component {
                 </div>
                 : type == "Funder" ?
                     <div>
-                        <Button style={{ float: "right", margin: "50px 30px" }} onClick={this.onClickFund}>Fund</Button>
+                        
                         <Button style={{ float: "right", margin: "50px 30px" }} onClick={this.showForestDetail}>Details</Button>
                     </div>
                     :
@@ -160,10 +160,10 @@ class AllForests extends Component {
             showNewAddModal, showPreferenceSetting,
             preferenceDisables, preference } = this.state
         const { type, token } = this.props
-        console.log(this.props, 'allf');
+        // console.log(this.props, 'allf');
         // const { type } = this.props.location.state
         if (!token) {
-            console.log("token", token);
+            // console.log("token", token);
             return <Redirect to="/" />
         }
         return (
@@ -174,7 +174,7 @@ class AllForests extends Component {
                         {type == 'Funder' &&
                             <Menu.Item key="sponser">Sponsering</Menu.Item>
                         }
-                        {type == 'Authen' &&
+                        {type == 'Auth' &&
                             <Menu.Item key="pending">Pending confirmation</Menu.Item>
                         }
                         {type == 'Owner' &&
@@ -257,7 +257,7 @@ class AllForests extends Component {
 }
 
 const mapStateToProps = (state) => {
-    console.log(state);
+    // console.log(state);
     return {
         type: state.user_type,
         token: state.token

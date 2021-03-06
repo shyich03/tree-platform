@@ -29,10 +29,10 @@ const SearchMap = ({ lat, lng, onReturn, onSubmit }) => {
 
     const onBoundsChanged = () => {
         if (recRef.current) {
-            console.log("Top: " + recRef.current.state.rectangle.bounds.Wa.j)
-            console.log("Left: " + recRef.current.state.rectangle.bounds.Qa.i)
-            console.log("right: " + recRef.current.state.rectangle.bounds.Qa.j)
-            console.log("Bottom: " + recRef.current.state.rectangle.bounds.Wa.i)
+            // console.log("Top: " + recRef.current.state.rectangle.bounds.Wa.j)
+            // console.log("Left: " + recRef.current.state.rectangle.bounds.Qa.i)
+            // console.log("right: " + recRef.current.state.rectangle.bounds.Qa.j)
+            // console.log("Bottom: " + recRef.current.state.rectangle.bounds.Wa.i)
             top = recRef.current.state.rectangle.bounds.Wa.j
             left = recRef.current.state.rectangle.bounds.Qa.i
             right = recRef.current.state.rectangle.bounds.Qa.j
@@ -45,7 +45,7 @@ const SearchMap = ({ lat, lng, onReturn, onSubmit }) => {
     })
 
     const onLoad = rectangle => {
-        console.log('rectangle: ', rectangle)
+        // console.log('rectangle: ', rectangle)
     }
     return isLoaded ? (
         <div style={{ height: '80vh', width: '100%' }}>

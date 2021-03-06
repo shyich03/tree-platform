@@ -23,7 +23,7 @@ const store = createStore(
 store.subscribe(()=>{
   saveState(store.getState());
 })
-console.log(store);
+// console.log(store);
 const app = (
   <Provider store={store}>
     <App />

@@ -8,6 +8,7 @@ import { connect } from 'react-redux';
 import img from '../../test.jpg'
 import Item from 'antd/lib/list/Item';
 import {Redirect } from "react-router-dom";
+// import Funding from '../Funding/Funding'
 const { SubMenu } = Menu;
 const { Header, Content, Sider, Footer } = Layout;
 
@@ -28,8 +29,16 @@ class ForestDetail extends Component{
         history.push({
         pathname : "/overview",
         state: {
-            cur_item: this.state.item,
-            type: this.state.type
+            cur_item: this.state.item
+        }
+        })
+    }
+    onClickFund=()=>{
+        const {history} = this.props
+        history.push({
+        pathname : "/funding",
+        state: {
+            forest: this.state.item
         }
         })
     }
@@ -48,7 +57,7 @@ class ForestDetail extends Component{
         this.setState({showDenyModal:false})
     }
     buttons = ()=>{
-        const {type} = this.state
+        const {type} = this.props
         return(
         type=="Owner"?
             <div>
@@ -68,11 +77,12 @@ class ForestDetail extends Component{
         )}
     render(){
         const {item, showConfirmModal, showDenyModal} = this.state
-        const {token} = this.props
+        const {token, type} = this.props
         if (!token){
-            console.log("token", token);
+            
             return <Redirect to="/" />
         }
+        console.log("token", token, type);
         return(
             <Layout style={{height:"100vh"}}>
                 <Content 
@@ -115,7 +125,7 @@ class ForestDetail extends Component{
 }
 
 const mapStateToProps = (state) => {
-    console.log(state);
+    // console.log(state);
   return {
       type:state.user_type,
       token: state.token

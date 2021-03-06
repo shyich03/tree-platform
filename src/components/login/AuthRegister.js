@@ -9,11 +9,11 @@ class AuthRegister extends Component {
     render(){
         const submit= async (values)=>  {     
             var generated_csrf_token = "{{ csrf_token }}"; 
-            console.log(api.defaults,{email: values.email, username: values.username, password: values.pasword, type: "register"});      
+            // console.log(api.defaults,{email: values.email, username: values.username, password: values.pasword, type: "register"});      
             // var res = await api.post('funder/',{email: "shyicsdfddgh03@hodtmail.com", username: "ddjrsddddfgja", password: "d"})
-            // console.log(res);
+            // // console.log(res);
             // var res = await api.get('funder/')
-            // console.log(res);
+            // // console.log(res);
             // axios({
             //     method:'get',
             //     url:'/user/',
@@ -24,7 +24,7 @@ class AuthRegister extends Component {
             //       print(reponse)
             //    })
             //    .catch(error => {
-            //        console.log(error);
+            //        // console.log(error);
             //    });
         }
         return (<div>

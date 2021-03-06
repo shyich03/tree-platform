@@ -50,7 +50,7 @@
 
 //     var img_width = Math.round(lngDiff > latDiff ? imgDimension : (lngDiff / latDiff) * imgDimension)
 
-//     console.log("&size=" + img_width + "x" + img_height + "&maptype=satellite&key=")
+//     // console.log("&size=" + img_width + "x" + img_height + "&maptype=satellite&key=")
 
 
 //     // var height = 640
@@ -67,10 +67,10 @@
 //                 src={"https://maps.googleapis.com/maps/api/staticmap?center=" + lat + "," + lng + "&zoom=" + bounds.zoom + "&size=" + img_width + "x" + img_height +
 //                     "&maptype=satellite&key=" + `${REACT_APP_GOOGLE_KEY}`}
 //             />
-//             <Button onClick={() => { console.log("erase") }}>erase</Button>
-//             <Button onClick={() => { console.log("1") }}>1</Button>
-//             <Button onClick={() => { console.log("2") }}>2</Button>
-//             <Button onClick={() => { console.log("3") }}>3</Button>
+//             <Button onClick={() => { // console.log("erase") }}>erase</Button>
+//             <Button onClick={() => { // console.log("1") }}>1</Button>
+//             <Button onClick={() => { // console.log("2") }}>2</Button>
+//             <Button onClick={() => { // console.log("3") }}>3</Button>
 //             <Button onClick={onSubmit}>submit</Button>
 //             <Button style={buttonStyle} key="back" onClick={onReturn}>
 //                 Return
@@ -79,7 +79,7 @@
 //     )
 // }
 // const mapStateToProps = (state) => {
-//     console.log(state);
+//     // console.log(state);
 //     return {
 //         token: state.token
 //     }
