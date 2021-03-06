@@ -11,8 +11,11 @@ import * as actions from '../../store/actions/auth';
 import { Redirect } from "react-router-dom";
 import ForestInfo from './ForestInfo';
 import NewAddForm from '../ForestDetail/NewAddForm'
+import Filter from '../Setting/Filter';
+import Filter2 from '../Setting/Filter2';
 
 const { Header, Content, Sider } = Layout;
+const { SubMenu } = Menu;
 class AllForests extends Component {
     constructor(props) {
         super(props)
@@ -23,7 +26,10 @@ class AllForests extends Component {
             type: props.user_type,
             showAddModal: false,
             cur_item_region: null,
-            showNewAddModal: false
+            showNewAddModal: false,
+            showPreferenceSetting: false,
+            preferenceDisables: [1, 1, 1, 1, 1, 1, 1],
+            preference: [0, 0, 0, 0, 0, 0, 0]
         }
     }
     async componentDidMount() {
@@ -57,7 +63,7 @@ class AllForests extends Component {
         for (var prop in cur_item) {
             if (cur_item.hasOwnProperty(prop))
                 console.log(cur_item)
-                return false;
+            return false;
         }
         return true;
     }
@@ -70,6 +76,8 @@ class AllForests extends Component {
             this.setState({ showAddModal: true })
         } else if (e.key == "add2") {
             this.setState({ showNewAddModal: true })
+        } else if (e.key == "Filter") {
+            this.setState({ showPreferenceSetting: true })
         }
         else {
             this.setState({ menu: e.key })
@@ -112,6 +120,24 @@ class AllForests extends Component {
         })
         await this.getCurrentRegion(forest_id)
     }
+
+    // Preference Settings helpers-------------------------------------------
+    onSwitchChange = (index) => {
+        var temp = this.state.preferenceDisables
+        temp[index] = !temp[index]
+        this.setState({ preferenceDisables: temp })
+    }
+    
+
+
+
+
+
+
+
+
+    //--------------------------------------------------------------------------------
+
     buttons = () => {
         const { type } = this.state
         return (
@@ -130,7 +156,9 @@ class AllForests extends Component {
         )
     }
     render() {
-        const { data, cur_item, showAddModal, cur_item_region, showNewAddModal} = this.state
+        const { data, cur_item, showAddModal, cur_item_region,
+            showNewAddModal, showPreferenceSetting,
+            preferenceDisables, preference } = this.state
         const { type, token } = this.props
         console.log(this.props, 'allf');
         // const { type } = this.props.location.state
@@ -153,7 +181,16 @@ class AllForests extends Component {
                             <Menu.Item key="my">My forests</Menu.Item>
                         }
                         <Menu.Item key="all">All forests</Menu.Item>
+                        <Menu.Item key="Filter">Filter</Menu.Item>
+                        <SubMenu key="Sort" title="Sort by">
+                            <Menu.Item key="bb">Biodiversity benefit</Menu.Item>
+                            <Menu.Item key="lib">Livelihood benefit</Menu.Item>
+                            <Menu.Item key="lob">Local benefit</Menu.Item>
+                            <Menu.Item key="ccs">Carbon credit status</Menu.Item>
+                            <Menu.Item key="ml">Minised leakage</Menu.Item>
+                        </SubMenu>
                         <Menu.Item style={{ float: "right" }} key="logout">Log out</Menu.Item>
+
                         {/* {type == 'Owner' &&
                             <Menu.Item style={{ float: "right" }} key="add">Add New</Menu.Item>
                         } */}
@@ -184,7 +221,7 @@ class AllForests extends Component {
                         }}
                     >
                         {!this.isCurEmpty() && cur_item_region ? (<div>
-                            <ForestInfo item={cur_item} region={cur_item_region}/>
+                            <ForestInfo item={cur_item} region={cur_item_region} />
                             {/* <div>{cur_item.desc}</div> */}
                             {this.buttons()}</div>
                         ) : (<div>No Forest</div>)}
@@ -200,6 +237,13 @@ class AllForests extends Component {
                             onOK={this.onOK}
                             onCancel={() => { this.setState({ showNewAddModal: false }); }}
                         // token={token}
+                        />
+                        <Filter2
+                            showPreferenceSetting={showPreferenceSetting}
+                            onCancel={() => { this.setState({ showPreferenceSetting: false }); }}
+                            onSwitchChange={this.onSwitchChange}
+                            preferenceDisables={preferenceDisables}
+                            preference={preference}
                         />
                     </Content>
 
