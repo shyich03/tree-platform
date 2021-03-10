@@ -27,7 +27,7 @@ const Filter2 = ({ showPreferenceSetting, onCancel, onSwitchChange, preferenceDi
 
 
     const handleChange = (value) => {
-        console.log(`Selected: ${value}`);
+        // console.log(`Selected: ${value}`);
     }
 
 
@@ -38,7 +38,7 @@ const Filter2 = ({ showPreferenceSetting, onCancel, onSwitchChange, preferenceDi
             title="Filter"
             footer={null}
             onCancel={onCancel}
-            onLoad={console.log("load")}
+            // onLoad={console.log("load")}
         >
             <h4>Biodiversity benefit</h4>
             <Select
@@ -88,6 +88,9 @@ const Filter2 = ({ showPreferenceSetting, onCancel, onSwitchChange, preferenceDi
                 {children}
             </Select>
 
+            <h4 style={{ marginTop: "20px" }} >Carbon sequestration per hectare (Mg/ha)</h4>
+            <Slider range min={0} max={10000} defaultValue={[3000, 5000]} disabled={false} />
+
             <h4 style={{ marginTop: "20px" }}>Minised leakage</h4>
             <Select
                 mode="multiple"
@@ -101,15 +104,15 @@ const Filter2 = ({ showPreferenceSetting, onCancel, onSwitchChange, preferenceDi
             </Select>
             <Row>
                 <Col style={{ marginTop: "20px" }} span={12}>
-                    <Checkbox onChange={console.log("change")}>Domestic</Checkbox>
+                    <Checkbox onChange={handleChange}>Domestic</Checkbox>
                 </Col>
 
                 <Col style={{ marginTop: "20px" }} span={12}>
-                    <Checkbox onChange={console.log("change")}>International</Checkbox>
+                    <Checkbox onChange={handleChange}>International</Checkbox>
                 </Col>
 
                 <Col style={{ marginTop: "20px" }} span={24}>
-                    <Checkbox onChange={console.log("change")}>Nature Based</Checkbox>
+                    <Checkbox onChange={handleChange}>Nature Based</Checkbox>
                 </Col>
             </Row>
 

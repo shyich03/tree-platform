@@ -78,6 +78,8 @@ class AllForests extends Component {
             this.setState({ showNewAddModal: true })
         } else if (e.key == "Filter") {
             this.setState({ showPreferenceSetting: true })
+        } else if (e.key == "all") {
+            this.showForestTable()
         }
         else {
             this.setState({ menu: e.key })
@@ -91,6 +93,17 @@ class AllForests extends Component {
         // // console.log([this.state.cur_item.key]);
         await this.getCurrentRegion(e.key)
     }
+
+    showForestTable = () => {
+        const { history } = this.props
+        history.push({
+            pathname: "/ForestTable",
+            state: {
+                item: this.state.cur_item
+            }
+        })
+    }
+
     showForestDetail = () => {
         const { history } = this.props
         history.push({
