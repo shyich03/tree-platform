@@ -4,6 +4,7 @@ import 'antd/dist/antd.css';
 import { Row, Col, Descriptions, Button } from 'antd';
 import { withRouter } from 'react-router-dom';
 import { Progress } from 'semantic-ui-react'
+import {data, choiceMapping, tidyName} from '../Util/AttributeData'
 
 const ForestRegionInfo = withRouter(({ history, color, region, size, }) => {
 
@@ -22,7 +23,7 @@ const ForestRegionInfo = withRouter(({ history, color, region, size, }) => {
     }
     return (
         <div>
-            {region.area && toInt(region.area).map((item, i) => {
+            {region && region.area && toInt(region.area).map((item, i) => {
                 return (item.map((item, j) => {
                     return (
                         item != 0 && <ColorBox
@@ -36,16 +37,21 @@ const ForestRegionInfo = withRouter(({ history, color, region, size, }) => {
                     )
                 }))
             })}
-                    <Descriptions title={"Region " + color.toString()} bordered>
-                        <Descriptions.Item span={0.5} label="attr1">{region.attr1}</Descriptions.Item>
-                        <Descriptions.Item span={0.5} label="attr2">{region.attr2}</Descriptions.Item>
-                        <Descriptions.Item span={0.5} label="attr3">{region.attr3}</Descriptions.Item>
-                        <Descriptions.Item span={0.5} label="attr4">{region.attr4}</Descriptions.Item>
-                        <Descriptions.Item span={0.5} label="attr4">{region.attr4}</Descriptions.Item>
-                        <Descriptions.Item span={0.5} label="attr4">{region.attr4}</Descriptions.Item>
-                        <Descriptions.Item span={3} label="description">{region.description}</Descriptions.Item>
-                    </Descriptions>
-                    <Button style={{ float: "right", margin: "10px 30px" }} onClick={() => onClickFund(region.id)}>Fund</Button>
+            {region && <Col span={24}>
+                <Descriptions title={"Region "+color.toString()} bordered>
+                    {data['intAttr'].map((item, i)=>
+                        <Descriptions.Item key={i} span={3} label={tidyName(item)}>{choiceMapping[region[item]]}</Descriptions.Item>)}
+                    {data['floatAttr'].map((item, i)=>
+                        <Descriptions.Item key={i} span={3} label={tidyName(item)}>{region[item]}</Descriptions.Item>)}
+                    {/* need update */}
+                    {data['checkAttr'].map((item, i)=>
+                        <Descriptions.Item key={i} span={3} label={tidyName(item)}>{region[item]?"True":"False"}</Descriptions.Item>)}
+                    {data['strAttr'].map((item, i)=>
+                        <Descriptions.Item key={i} span={3} label={tidyName(item)}>{region[item]}</Descriptions.Item>)}
+                </Descriptions>
+                <Button style={{ float: "right", margin: "50px 30px" }} onClick={()=>onClickFund(region.id)}>Fund</Button>
+                
+            </Col>}
         </div>
     )
 })

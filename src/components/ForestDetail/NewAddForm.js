@@ -4,7 +4,6 @@ import SearchMap from "./SearchMap"
 import { Modal, Button, Upload, Spin, Row } from 'antd';
 import { InboxOutlined } from '@ant-design/icons';
 import { api } from '../../apis'
-import RegionForm from './RegionForm'
 import { connect } from 'react-redux'
 import ColorBox from '../ForestDetail/ColorBox'
 
@@ -227,20 +226,20 @@ const NewAddForm = ({ showAddModal, onOK, onCancel, token }) => {
         // console.log(regionFormData)
         // console.log(forestID)
         // console.log(size)
-        res = await api.post('create-regions',
-            {
-                image_map: gridData,
-                data: regionFormData,
-                forest_id: forestID,
-                block_size: size,
-            },
-            {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Authorization: Token ' + token
-                }
-            })
-        // console.log(res, "res");
+        // res = await api.post('create-regions',
+        //     {
+        //         image_map: gridData,
+        //         data: regionFormData,
+        //         forest_id: forestID,
+        //         block_size: size,
+        //     },
+        //     {
+        //         headers: {
+        //             'Content-Type': 'application/json',
+        //             'Authorization': 'Authorization: Token ' + token
+        //         }
+        //     })
+        // // console.log(res, "res");
         setLoading(false)
         setForestID(res.data.id)
         setShowImage(false)
@@ -377,13 +376,13 @@ const NewAddForm = ({ showAddModal, onOK, onCancel, token }) => {
                         onMouseUp={onMouseUp}
                     >
                         {spin}
-                        <div style={{ position: "relative", marginBottom: "20px" }}
-                            onDragStart={(e) => { e.preventDefault(); }}
-                            onMouseMove={onMouseMove}
-                            onMouseDown={onMouseDown}
-                        >
+                         {/* <div style={{ position: "relative", marginBottom: "20px" }}
+                             onDragStart={(e) => { e.preventDefault(); }}
+                             onMouseMove={onMouseMove}
+                             onMouseDown={onMouseDown}
+                         >
 
-                            <img
+                             <img 
                                 style={{ "width": "100%", zIndex: "1" }}
                                 draggable="false"
                                 ref={imgRef}
@@ -404,8 +403,8 @@ const NewAddForm = ({ showAddModal, onOK, onCancel, token }) => {
                                     )
                                 }))
                             })}
-                        </div>
-                        <Button onClick={() => { setColor(0) }}>erase</Button>
+                        </div> */}
+                        {/* <Button onClick={() => { setColor(0) }}>erase</Button>
                         <Button onClick={() => { setColor(1) }}>1</Button>
                         <Button onClick={() => { setColor(2) }}>2</Button>
                         <Button onClick={() => { setColor(3) }}>3</Button>
@@ -414,7 +413,7 @@ const NewAddForm = ({ showAddModal, onOK, onCancel, token }) => {
                                 regionFormData.map((data, index) =>
                                     <RegionForm data={data} onChange={changeRegionData} key={index} id={index} />
                                 )
-                            }</Row>
+                            }</Row> */}
 
                         <Dragger
                             fileList={fileList}

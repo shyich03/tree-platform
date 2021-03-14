@@ -5,7 +5,6 @@ import { Layout, Menu, Button, Modal, Image } from 'antd';
 import { withRouter } from 'react-router-dom'
 import img from '../../test.jpg'
 import { api } from '../../apis'
-import AddForm from '../ForestDetail/AddForm'
 import { connect } from 'react-redux';
 import * as actions from '../../store/actions/auth';
 import { Redirect, Link} from "react-router-dom";
@@ -234,17 +233,12 @@ class AllForests extends Component {
                         }}
                     >
                         {!this.isCurEmpty() && cur_item_region ? (<div>
-                            <ForestInfo item={cur_item} region={cur_item_region} />
+                            <ForestInfo item={cur_item} region={cur_item_region} onOK={this.onOK}/>
                             {/* <div>{cur_item.desc}</div> */}
                             {this.buttons()}</div>
                         ) : (<div>No Forest</div>)}
 
-                        {/* <AddForm
-                            showAddModal={showAddModal}
-                            onOK={this.onOK}
-                            onCancel={() => { this.setState({ showAddModal: false }); }}
-                        // token={token}
-                        /> */}
+                        
                         <NewAddForm
                             showAddModal={showNewAddModal}
                             onOK={this.onOK}
