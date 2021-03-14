@@ -3,8 +3,9 @@ import ColorBox from '../ForestDetail/ColorBox'
 import 'antd/dist/antd.css';
 import { Row, Col, Descriptions, Button } from 'antd';
 import { withRouter } from 'react-router-dom';
+import { Progress } from 'semantic-ui-react'
 
-const ForestRegionInfo = withRouter(({history, color, region, size, }) => {
+const ForestRegionInfo = withRouter(({ history, color, region, size, }) => {
 
     const toInt = (s) => {
         s = s.slice(2, -2)
@@ -14,9 +15,9 @@ const ForestRegionInfo = withRouter(({history, color, region, size, }) => {
         })
         return s
     }
-    const onClickFund=(id)=>{
+    const onClickFund = (id) => {
         history.push({
-        pathname : "/funding/"+id
+            pathname: "/funding/" + id
         })
     }
     return (
@@ -35,17 +36,16 @@ const ForestRegionInfo = withRouter(({history, color, region, size, }) => {
                     )
                 }))
             })}
-            <Col span={24}>
-                <Descriptions title={"Region "+color.toString()} bordered>
-                <Descriptions.Item span={3} label="attr1">{region.attr1}</Descriptions.Item>
-                <Descriptions.Item span={3} label="attr2">{region.attr2}</Descriptions.Item>
-                <Descriptions.Item span={3} label="attr3">{region.attr3}</Descriptions.Item>
-                <Descriptions.Item span={3} label="attr4">{region.attr4}</Descriptions.Item>
-                <Descriptions.Item span={3} label="description">{region.description}</Descriptions.Item>
-                </Descriptions>
-                <Button style={{ float: "right", margin: "50px 30px" }} onClick={()=>onClickFund(region.id)}>Fund</Button>
-                
-            </Col>
+                    <Descriptions title={"Region " + color.toString()} bordered>
+                        <Descriptions.Item span={0.5} label="attr1">{region.attr1}</Descriptions.Item>
+                        <Descriptions.Item span={0.5} label="attr2">{region.attr2}</Descriptions.Item>
+                        <Descriptions.Item span={0.5} label="attr3">{region.attr3}</Descriptions.Item>
+                        <Descriptions.Item span={0.5} label="attr4">{region.attr4}</Descriptions.Item>
+                        <Descriptions.Item span={0.5} label="attr4">{region.attr4}</Descriptions.Item>
+                        <Descriptions.Item span={0.5} label="attr4">{region.attr4}</Descriptions.Item>
+                        <Descriptions.Item span={3} label="description">{region.description}</Descriptions.Item>
+                    </Descriptions>
+                    <Button style={{ float: "right", margin: "10px 30px" }} onClick={() => onClickFund(region.id)}>Fund</Button>
         </div>
     )
 })

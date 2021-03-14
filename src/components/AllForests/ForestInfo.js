@@ -1,11 +1,12 @@
 import React, { useState, useRef, useEffect } from "react"
 import { Descriptions, Row, Col, Divider, Button } from 'antd';
 import file from '../../tree_info.pdf'
-
 import 'antd/dist/antd.css';
 import ForestRegionInfo from "./ForestRegionInfo";
 import HansenImg from "./HansenImg";
 import ForestMap from "./ForestMap";
+import { Progress } from 'semantic-ui-react'
+import 'semantic-ui-css/semantic.min.css'
 
 const ForestInfo = ({ item, region }) => {
 
@@ -73,11 +74,17 @@ const ForestInfo = ({ item, region }) => {
                 {region.lenght != 0 &&
                     <>
                         <Divider orientation="left">Forest Region Info</Divider>
-                        <Row >
-                            <ForestRegionInfo color={1} region={region[0]} size={size} />
-                            <ForestRegionInfo color={2} region={region[1]} size={size} />
-                            <ForestRegionInfo color={3} region={region[2]} size={size} />
-                        </Row>
+                        {/* <Row > */}
+                        <ForestRegionInfo color={1} region={region[0]} size={size} />
+                        <h4>Funding Progress:</h4>
+                        <Progress color="blue" percent={11} progress />
+                        <ForestRegionInfo color={2} region={region[1]} size={size} />
+                        <h4>Funding Progress:</h4>
+                        <Progress color="green" percent={23} progress />
+                        <ForestRegionInfo color={3} region={region[2]} size={size} />
+                        <h4>Funding Progress:</h4>
+                        <Progress color="red" percent={59} progress />
+                        {/* </Row> */}
                     </>
                 }
 
