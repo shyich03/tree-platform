@@ -1,3 +1,4 @@
+// not used
 import React, { Component } from 'react';
 import 'antd/dist/antd.css';
 import { Form, Input, Modal, Button, InputNumber, Spin, Row } from 'antd';
@@ -5,7 +6,7 @@ import { api } from '../../apis'
 import ColorBox from '../ForestDetail/ColorBox'
 import timg from '../../test.jpg'
 import NewForestForm from './NewForestForm'
-import RegionForm from './RegionForm'
+import RegionForm from '../AllForests/RegionForm'
 import { connect } from 'react-redux';
 
 class AddForm extends Component {
