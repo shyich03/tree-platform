@@ -58,52 +58,49 @@ const ForestInfo = ({ item, region, type, onOK }) => {
     console.log(type, item);
     return (
         <div>
-            {type=='Auth' && item.state==1?
-            <CreateRegionForm item={item} onOK={onOK}/>:
-            <div>
-                <div style={{ position: "relative", marginBottom: "20px" }} >
-                    <img
-                        draggable="false"
-                        onLoad={calculateSize}
-                        src={item.maps_image}
-                        ref={imgRef}
-                        style={{ "width": "50%", zIndex: "1" }} />
-                    <div>
-                        <Button style={{ margin: "10px 0 -15px 0" }} onClick={() => setShowHansenImg(true)}>Hansen Dataset Image</Button>
-                        <Button style={{ marginLeft: "10px" }} onClick={() => setShowForestMap(true)}>Show Google Map</Button>
-                        {/* <Button href={item.metadata_file} download>{item.metadata_file.substring(item.metadata_file.indexOf('/files/')+7)}</Button> */}
-                        <Button type="primary" style={{ marginLeft: "10px" }} href={item.metadata_file} download>{"Download Forest Info File"}</Button>
-                    </div>
-                    {region.lenght != 0 &&
-                        <>
-                            <Divider orientation="left">Forest Region Info</Divider>
-                            <Row >
+            {type == 'Auth' && item.state == 1 ?
+                <CreateRegionForm item={item} onOK={onOK} /> :
+                <div>
+                    <div style={{ position: "relative", marginBottom: "20px" }} >
+                        <img
+                            draggable="false"
+                            onLoad={calculateSize}
+                            src={item.maps_image}
+                            ref={imgRef}
+                            style={{ "width": "50%", zIndex: "1" }} />
+                        <div>
+                            <Button style={{ margin: "10px 0 -15px 0" }} onClick={() => setShowHansenImg(true)}>Hansen Dataset Image</Button>
+                            <Button style={{ marginLeft: "10px" }} onClick={() => setShowForestMap(true)}>Show Google Map</Button>
+                            {/* <Button href={item.metadata_file} download>{item.metadata_file.substring(item.metadata_file.indexOf('/files/')+7)}</Button> */}
+                            <Button type="primary" style={{ marginLeft: "10px" }} href={item.metadata_file} download>{"Download Forest Info File"}</Button>
+                        </div>
+                        {region.lenght != 0 &&
+                            <>
+                                <Divider orientation="left">Forest Region Info</Divider>
+                                {/* <Row > */}
                                 <ForestRegionInfo color={1} region={region[0]} size={size} />
+                                <h4>Funding Progress:</h4>
+                                <Progress color="blue" percent={11} progress />
                                 <ForestRegionInfo color={2} region={region[1]} size={size} />
+                                <h4>Funding Progress:</h4>
+                                <Progress color="green" percent={23} progress />
                                 <ForestRegionInfo color={3} region={region[2]} size={size} />
-                            </Row>
-                        </>
-                    }
+                                <h4>Funding Progress:</h4>
+                                <Progress color="red" percent={59} progress />
+                                {/* </Row> */}
+                            </>
+                            // <>
+                            //     <Divider orientation="left">Forest Region Info</Divider>
+                            //     <Row >
+                            //         <ForestRegionInfo color={1} region={region[0]} size={size} />
+                            //         <ForestRegionInfo color={2} region={region[1]} size={size} />
+                            //         <ForestRegionInfo color={3} region={region[2]} size={size} />
+                            //     </Row>
+                            // </>
+                        }
+                    </div>
                 </div>
-                {region.lenght != 0 &&
-                    <>
-                        <Divider orientation="left">Forest Region Info</Divider>
-                        {/* <Row > */}
-                        <ForestRegionInfo color={1} region={region[0]} size={size} />
-                        <h4>Funding Progress:</h4>
-                        <Progress color="blue" percent={11} progress />
-                        <ForestRegionInfo color={2} region={region[1]} size={size} />
-                        <h4>Funding Progress:</h4>
-                        <Progress color="green" percent={23} progress />
-                        <ForestRegionInfo color={3} region={region[2]} size={size} />
-                        <h4>Funding Progress:</h4>
-                        <Progress color="red" percent={59} progress />
-                        {/* </Row> */}
-                    </>
-                }
 
-            </div>
-            
             }
             <HansenImg hansenImg={item.gee_image} showImgModel={showHansenImg} onCancel={() => setShowHansenImg(false)} />
             <ForestMap showForestMap={showForestMap} name={item.name} lat1={item.lat1} lat2={item.lat2}

@@ -18,7 +18,7 @@ const CreateRegionForm = ({  onOK, item, token }) => {
         for (var j = 1; j < 4; j++) {
             var d={}
             for(var i =0; i<data['intAttr'].length; i++){
-                d[data['intAttr'][i]] = 1
+                d[data['intAttr'][i]] = 0
             }
             for(var i =0; i<data['floatAttr'].length; i++){
                 d[data['floatAttr'][i]] = 0
@@ -234,7 +234,7 @@ const CreateRegionForm = ({  onOK, item, token }) => {
                         onMouseDown={onMouseDown}
                     >
                         <img 
-                        style={{ "width": "100%", zIndex: "1" }}
+                        style={{ "width": "50%", zIndex: "1" }}
                         draggable="false"
                         ref={imgRef}
                         onLoad={onImgLoad}

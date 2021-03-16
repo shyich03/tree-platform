@@ -48,6 +48,7 @@ export default class RegionForm extends Component {
                                 <Option value="prelim">Prelim</Option>
                                 <Option value="3rd party">3rd party</Option> */}
                             </Select>
+                            <Checkbox onChange={() => console.log("check")}>Informed Guess</Checkbox>
                         </Form.Item> )}
                     {data['floatAttr'].map((item, index) => 
                         <Form.Item

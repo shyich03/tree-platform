@@ -25,18 +25,28 @@ const SearchMap = ({ lat, lng, onReturn, onSubmit }) => {
     var right = lng + defaultRecHeight
     var bottom = lat - defaultRecHeight
 
+    const setBounds = (s) => {
+        console.log(s)
+        s = s.slice(2, -2)
+        s = s.split("), (")
+        s.map((item, i) => {
+            s[i] = item.split(", ").map(s => +s)
+        })
+        bottom = s[0][0]
+        left = s[0][1]
+        top = s[1][0]
+        right = s[1][1]
+    }
+
     const recRef = React.createRef()
 
     const onBoundsChanged = () => {
         if (recRef.current) {
-            // console.log("Top: " + recRef.current.state.rectangle.bounds.Wa.j)
-            // console.log("Left: " + recRef.current.state.rectangle.bounds.Qa.i)
-            // console.log("right: " + recRef.current.state.rectangle.bounds.Qa.j)
-            // console.log("Bottom: " + recRef.current.state.rectangle.bounds.Wa.i)
-            top = recRef.current.state.rectangle.bounds.Wa.j
-            left = recRef.current.state.rectangle.bounds.Qa.i
-            right = recRef.current.state.rectangle.bounds.Qa.j
-            bottom = recRef.current.state.rectangle.bounds.Wa.i
+            setBounds(String(recRef.current.state.rectangle.getBounds()))
+            // console.log("Top: " + top)
+            // console.log("Left: " + left)
+            // console.log("right: " + right)
+            // console.log("Bottom: " + bottom)
         }
     }
     const { isLoaded } = useJsApiLoader({

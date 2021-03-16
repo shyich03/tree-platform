@@ -3,7 +3,7 @@ import { Modal, Slider, Switch, Row, Col, Select, Checkbox, Button } from 'antd'
 
 const { Option } = Select;
 
-const level = ["low", "Med", "High", "Very High", "Prelim", "In House", "3rd Party"]
+const level = ["Low", "Med", "High", "Very high", "Prelim", "In house", "3rd party"]
 
 const children = [];
 
@@ -13,14 +13,16 @@ for (item in level) {
 }
 
 
-const Filter2 = ({ showPreferenceSetting, onCancel, onSwitchChange, preferenceDisables, preference }) => {
+const Filter2 = ({ showPreferenceSetting, onCancel, onSubmit, preference}) => {
+
+    var tempPreference = preference
 
     const attributes = ["Biodiversity benefit", "Livelihood benefit", "Local benefit", "Carbon credit status", "Minised leakage"]
 
 
 
     const scope = ["Domestic", "International"]
-    const solution = ["Nature Based"]
+    const solution = ["Nature Based", "Non-Nature Based"]
 
     const [check, setCheck] = useState(false)
 
@@ -45,8 +47,8 @@ const Filter2 = ({ showPreferenceSetting, onCancel, onSwitchChange, preferenceDi
                 mode="multiple"
                 size={"small"}
                 placeholder="Please select"
-                defaultValue={[]}
-                onChange={handleChange}
+                defaultValue={preference.biodiversity_benefit}
+                onChange={(change) => tempPreference.biodiversity_benefit = change}
                 style={{ width: '100%' }}
             >
                 {children}
@@ -57,8 +59,8 @@ const Filter2 = ({ showPreferenceSetting, onCancel, onSwitchChange, preferenceDi
                 mode="multiple"
                 size={"small"}
                 placeholder="Please select"
-                defaultValue={[]}
-                onChange={handleChange}
+                defaultValue={preference.livelihood_benefit}
+                onChange={(change) => tempPreference.livelihood_benefit = change}
                 style={{ width: '100%' }}
             >
                 {children}
@@ -69,8 +71,8 @@ const Filter2 = ({ showPreferenceSetting, onCancel, onSwitchChange, preferenceDi
                 mode="multiple"
                 size={"small"}
                 placeholder="Please select"
-                defaultValue={[]}
-                onChange={handleChange}
+                defaultValue={preference.local_benefit}
+                onChange={(change) => tempPreference.local_benefit = change}
                 style={{ width: '100%' }}
             >
                 {children}
@@ -81,42 +83,45 @@ const Filter2 = ({ showPreferenceSetting, onCancel, onSwitchChange, preferenceDi
                 mode="multiple"
                 size={"small"}
                 placeholder="Please select"
-                defaultValue={[]}
-                onChange={handleChange}
+                defaultValue={preference.carbon_credit_status}
+                onChange={(change) => tempPreference.carbon_credit_status = change}
                 style={{ width: '100%' }}
             >
                 {children}
             </Select>
 
             <h4 style={{ marginTop: "20px" }} >Carbon sequestration per hectare (Mg/ha)</h4>
-            <Slider range min={0} max={10000} defaultValue={[3000, 5000]} disabled={false} />
+            <Slider range min={0} max={10000} onChange={(change) => tempPreference.carbon_sequestration = change} defaultValue={preference.carbon_sequestration} disabled={false} />
 
             <h4 style={{ marginTop: "20px" }}>Minised leakage</h4>
             <Select
                 mode="multiple"
                 size={"small"}
                 placeholder="Please select"
-                defaultValue={[]}
-                onChange={handleChange}
+                defaultValue={preference.minised_leakage}
+                onChange={(change) => tempPreference.minised_leakage = change}
                 style={{ width: '100%' }}
             >
                 {children}
             </Select>
             <Row>
                 <Col style={{ marginTop: "20px" }} span={12}>
-                    <Checkbox onChange={handleChange}>Domestic</Checkbox>
+                    <Checkbox defaultChecked={preference.domestic} onChange={(e)=> tempPreference.domestic = e.target.checked}>Domestic</Checkbox>
                 </Col>
 
                 <Col style={{ marginTop: "20px" }} span={12}>
-                    <Checkbox onChange={handleChange}>International</Checkbox>
+                    <Checkbox defaultChecked={preference.international} onChange={(e)=> tempPreference.international = e.target.checked}>International</Checkbox>
                 </Col>
 
-                <Col style={{ marginTop: "20px" }} span={24}>
-                    <Checkbox onChange={handleChange}>Nature Based</Checkbox>
+                <Col style={{ marginTop: "20px" }} span={12}>
+                    <Checkbox defaultChecked={preference.nature_based} onChange={(e)=> tempPreference.nature_based = e.target.checked}>Nature Based</Checkbox>
+                </Col>
+                <Col style={{ marginTop: "20px" }} span={12}>
+                    <Checkbox defaultChecked={preference.non_nature_based} onChange={(e)=> tempPreference.non_nature_based = e.target.checked}>Non-Nature Based</Checkbox>
                 </Col>
             </Row>
 
-            <Button type="primary" style={{ float: "center", marginTop: "50px", marginLeft: "40%" }}>Filter</Button>
+            <Button type="primary" onClick={() => onSubmit(tempPreference)} style={{ float: "center", marginTop: "50px", marginLeft: "40%" }}>Filter</Button>
         </Modal>
     )
 }

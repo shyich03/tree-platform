@@ -5,6 +5,7 @@ export const data = {
     'strAttr' : ['description']}
 
 export const choiceMapping ={
+    0:'None',
     1:'Low',
     2:'Med',
     3:'High',
@@ -13,6 +14,25 @@ export const choiceMapping ={
     6:'Prelim',
     7:'3rd party'
 }
+
+export const levelValue = {
+    'Low' : 1,
+    'Med' : 2,
+    'High' : 3,
+    'Very high' : 4,
+    'In house' : 0,
+    'Prelim': 0,
+    '3rd party': 0,
+    'None': -1
+}
+
+export const tableData = {
+    'regionInfo' : ['partner_name', 'project_name', 'region_id'],
+    'intAttr' : ['biodiversity_benefit', 'livelihood_benefit', 'local_benefit', 'carbon_credit_status', "minised_leakage"],
+    'floatAttr' : ['carbon_sequestration'],
+    'checkAttr' : ['domestic', "international", "nature_based"],
+    'strAttr' : ['description']}
+
 export const tidyName = (str)=>{
     let w = str.split('_')
     for (var i =0; i<w.length; i++){
@@ -21,3 +41,11 @@ export const tidyName = (str)=>{
     w=w.join(" ")
     return w
 }
+
+export const extractValue = (s) => {
+    let w = s.split('_')
+    var guess = w[1] == 'g' ? true : false
+    return guess, w[0]
+}
+
+export const levels = ["Low", "Med", "High", "Very high", "Prelim", "In house", "3rd party"]

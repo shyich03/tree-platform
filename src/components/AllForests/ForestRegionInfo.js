@@ -49,7 +49,7 @@ const ForestRegionInfo = withRouter(({ history, color, region, size, }) => {
                     {data['strAttr'].map((item, i)=>
                         <Descriptions.Item key={i} span={3} label={tidyName(item)}>{region[item]}</Descriptions.Item>)}
                 </Descriptions>
-                <Button style={{ float: "right", margin: "50px 30px" }} onClick={()=>onClickFund(region.id)}>Fund</Button>
+                <Button style={{ float: "right", margin: "0px 30px" }} onClick={()=>onClickFund(region.id)}>Fund</Button>
                 
             </Col>}
         </div>
