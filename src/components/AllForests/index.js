@@ -1,16 +1,15 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
 import 'antd/dist/antd.css';
-import { Layout, Menu, Button, Modal, Image } from 'antd';
+import { Layout, Menu, Button } from 'antd';
 import { withRouter } from 'react-router-dom'
-import img from '../../test.jpg'
+// import img from '../../test.jpg'
 import { api } from '../../apis'
 import { connect } from 'react-redux';
 import * as actions from '../../store/actions/auth';
 import { Redirect, Link} from "react-router-dom";
 import ForestInfo from './ForestInfo';
 import NewAddForm from '../ForestDetail/NewAddForm'
-import Filter from '../Setting/Filter';
+// import Filter from '../Setting/Filter';
 import Filter2 from '../Setting/Filter2';
 
 const { Header, Content, Sider } = Layout;
@@ -51,7 +50,7 @@ class AllForests extends Component {
 
     //get region data of the selected forest
     getCurrentRegion = async (id) => {
-        // console.log("singel forest");
+        console.log(id);
         var res = await api.get('forest-single/' + id.toString())
         this.setState({ cur_item_region: res.data })
         // console.log(res);

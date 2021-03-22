@@ -17,10 +17,10 @@ class Register extends Component{
 //   }
   
   render() {
-    const onFinish = (values) => {
+    const onFinish = async (values) => {
       const {history, onAuth, type} = this.props
-      onAuth(values, type)
-      // console.log('Success:', values);
+      const res = await onAuth(values, type)
+      console.log(res);
       history.push({
         pathname : "/"+type+"login",
       })
@@ -105,6 +105,7 @@ class Register extends Component{
         />
       </Form.Item>
       {this.props.type=='Owner'?
+      <div>
         <Form.Item
           name="paypal_email"
           rules={[
@@ -120,7 +121,24 @@ class Register extends Component{
         >
         <Input placeholder="paypal email"/>
       
-        </Form.Item>:
+        </Form.Item>
+        <Form.Item
+          name="organization_name"
+          rules={[
+            {
+              type: 'string',
+              message: 'The input is not a string',
+            },
+            {
+              required: true,
+              message: 'Please input your organization name',
+            },
+          ]}
+        >
+        <Input placeholder=""/>
+      
+        </Form.Item>
+        </div>:
         ""
       }
 

@@ -9,6 +9,7 @@ import ForestMap from "./ForestMap";
 import { Progress } from 'semantic-ui-react'
 import 'semantic-ui-css/semantic.min.css'
 import CreateRegionForm from "./CreateRegionForm";
+import FundingCap from '../ForestDetail/FundingCap'
 
 const ForestInfo = ({ item, region, type, onOK }) => {
 
@@ -56,11 +57,15 @@ const ForestInfo = ({ item, region, type, onOK }) => {
         return (1000)
     }
     console.log(type, item);
+    const needRegionInfo = type == 'Auth' && item.state == 1
+    const needFundingCap = type == 'Owner' && item.state == 2
+    const colors={1:"blue", 2:"green", 3:"red"}
     return (
         <div>
-            {type == 'Auth' && item.state == 1 ?
+            { needRegionInfo?
                 <CreateRegionForm item={item} onOK={onOK} /> :
                 <div>
+                    
                     <div style={{ position: "relative", marginBottom: "20px" }} >
                         <img
                             draggable="false"
@@ -78,16 +83,15 @@ const ForestInfo = ({ item, region, type, onOK }) => {
                             <>
                                 <Divider orientation="left">Forest Region Info</Divider>
                                 {/* <Row > */}
-                                <ForestRegionInfo color={1} region={region[0]} size={size} />
-                                <h4>Funding Progress:</h4>
-                                <Progress color="blue" percent={11} progress />
-                                <ForestRegionInfo color={2} region={region[1]} size={size} />
-                                <h4>Funding Progress:</h4>
-                                <Progress color="green" percent={23} progress />
-                                <ForestRegionInfo color={3} region={region[2]} size={size} />
-                                <h4>Funding Progress:</h4>
-                                <Progress color="red" percent={59} progress />
-                                {/* </Row> */}
+                                {[1,2,3].map(i=>
+                                    <div key={i}>
+                                        { needFundingCap&& <FundingCap forest={item} region={region[i-1]} onOK={onOK}></FundingCap> }
+                                        <ForestRegionInfo color={i} region={region[i-1]} size={size} />
+                                        <h4>Funding Progress:</h4>
+                                        <Progress color={colors[i]} percent={11} progress />
+                                    </div>)}
+                                
+                                
                             </>
                             // <>
                             //     <Divider orientation="left">Forest Region Info</Divider>
