@@ -39,14 +39,14 @@ const ForestRegionInfo = withRouter(({ history, color, region, size, }) => {
             })}
             {region && <Col span={24}>
                 <Descriptions title={"Region "+color.toString()} bordered>
+                    {data['strAttr'].map((item, i)=>
+                        <Descriptions.Item key={i} span={3} label={tidyName(item)}>{region[item]}</Descriptions.Item>)}
                     {data['intAttr'].map((item, i)=>
                         <Descriptions.Item key={i} span={3} label={tidyName(item)}>{choiceMapping[region[item]]}</Descriptions.Item>)}
-                    {data['floatAttr'].map((item, i)=>
-                        <Descriptions.Item key={i} span={3} label={tidyName(item)}>{region[item]}</Descriptions.Item>)}
                     {/* need update */}
                     {data['checkAttr'].map((item, i)=>
                         <Descriptions.Item key={i} span={3} label={tidyName(item)}>{region[item]?"True":"False"}</Descriptions.Item>)}
-                    {data['strAttr'].map((item, i)=>
+                    {data['floatAttr'].map((item, i)=>
                         <Descriptions.Item key={i} span={3} label={tidyName(item)}>{region[item]}</Descriptions.Item>)}
                 </Descriptions>
                 <Button style={{ float: "right", margin: "0px 30px" }} onClick={()=>onClickFund(region.id)}>Fund</Button>

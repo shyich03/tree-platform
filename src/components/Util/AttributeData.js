@@ -1,6 +1,6 @@
 export const data = {
     'intAttr' : ['biodiversity_benefit', 'livelihood_benefit', 'local_benefit', 'carbon_credit_status', "minised_leakage"],
-    'floatAttr' : ['carbon_sequestration'],
+    'floatAttr' : ['carbon_sequestration', 'funding_goal'],
     'checkAttr' : ['domestic', "international", "nature_based"],
     'strAttr' : ['description']}
 

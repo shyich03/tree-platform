@@ -135,7 +135,7 @@ class Register extends Component{
             },
           ]}
         >
-        <Input placeholder=""/>
+        <Input placeholder="organization name"/>
       
         </Form.Item>
         </div>:
