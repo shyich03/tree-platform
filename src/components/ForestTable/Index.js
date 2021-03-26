@@ -49,14 +49,14 @@ const Index = () => {
             defaultSortOrder: 'ascend',
             sortDirections: ['descend', 'ascend'],
             sorter: (a, b) => levelValue[a.biodiversity_benefit] - levelValue[b.biodiversity_benefit],
-            // render(text, record) {
-            //     return {
-            //       props: {
-            //         style: { background: text == 'Low' ? "red" : ""}
-            //       },
-            //       children: <div>{text}</div>
-            //     };
-            //   }
+            render(text, record) {
+                return {
+                  props: {
+                    style: { background: text == 'Low' ? "red" : ""}
+                  },
+                  children: <div>{text}</div>
+                };
+              }
         },
         {
             title: 'Livelihood Benefit',

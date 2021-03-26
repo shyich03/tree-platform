@@ -55,7 +55,7 @@ const ForestInfo = ({ item, region, type, onOK }) => {
         }
         return (1000)
     }
-    console.log(type, item);
+    // console.log(type, item);
     return (
         <div>
             {type == 'Auth' && item.state == 1 ?

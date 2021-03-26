@@ -26,9 +26,6 @@ class AllForests extends Component {
             showAddModal: false,
             cur_item_region: null,
             showNewAddModal: false,
-            showPreferenceSetting: false,
-            preferenceDisables: [1, 1, 1, 1, 1, 1, 1],
-            preference: [0, 0, 0, 0, 0, 0, 0]
         }
     }
     async componentDidMount() {
@@ -169,8 +166,7 @@ class AllForests extends Component {
     }
     render() {
         const { data, cur_item, showAddModal, cur_item_region,
-            showNewAddModal, showPreferenceSetting,
-            preferenceDisables, preference } = this.state
+            showNewAddModal} = this.state
         const { type, token } = this.props
         // console.log(this.props, 'allf');
         // const { type } = this.props.location.state
@@ -192,15 +188,7 @@ class AllForests extends Component {
                         {type == 'Owner' &&
                             <Menu.Item key="my">My forests</Menu.Item>
                         }
-                        <Menu.Item key="all">All forests</Menu.Item>
-                        <Menu.Item key="Filter">Filter</Menu.Item>
-                        <SubMenu key="Sort" title="Sort by">
-                            <Menu.Item key="bb">Biodiversity benefit</Menu.Item>
-                            <Menu.Item key="lib">Livelihood benefit</Menu.Item>
-                            <Menu.Item key="lob">Local benefit</Menu.Item>
-                            <Menu.Item key="ccs">Carbon credit status</Menu.Item>
-                            <Menu.Item key="ml">Minised leakage</Menu.Item>
-                        </SubMenu>
+                        <Menu.Item key="all">Table of Regions</Menu.Item>
                         <Menu.Item style={{ float: "right" }} key="logout">Log out</Menu.Item>
 
                         {/* {type == 'Owner' &&
@@ -244,13 +232,6 @@ class AllForests extends Component {
                             onOK={this.onOK}
                             onCancel={() => { this.setState({ showNewAddModal: false }); }}
                         // token={token}
-                        />
-                        <Filter2
-                            showPreferenceSetting={showPreferenceSetting}
-                            onCancel={() => { this.setState({ showPreferenceSetting: false }); }}
-                            onSwitchChange={this.onSwitchChange}
-                            preferenceDisables={preferenceDisables}
-                            preference={preference}
                         />
                     </Content>
 

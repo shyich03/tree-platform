@@ -16,14 +16,14 @@ export const choiceMapping ={
 }
 
 export const levelValue = {
-    'Low' : 1,
-    'Med' : 2,
-    'High' : 3,
-    'Very high' : 4,
-    'In house' : 0,
-    'Prelim': 0,
-    '3rd party': 0,
-    'None': -1
+    'Low' : 2,
+    'Med' : 3,
+    'High' : 4,
+    'Very high' : 5,
+    'In house' : 1,
+    'Prelim': 1,
+    '3rd party': 1,
+    'None': 0
 }
 
 export const tableData = {
@@ -48,4 +48,4 @@ export const extractValue = (s) => {
     return guess, w[0]
 }
 
-export const levels = ["Low", "Med", "High", "Very high", "Prelim", "In house", "3rd party"]
+export const levels = ["None","Low", "Med", "High", "Very high", "Prelim", "In house", "3rd party"]
