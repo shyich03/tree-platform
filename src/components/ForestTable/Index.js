@@ -49,14 +49,14 @@ const Index = () => {
             defaultSortOrder: 'ascend',
             sortDirections: ['descend', 'ascend'],
             sorter: (a, b) => levelValue[a.biodiversity_benefit] - levelValue[b.biodiversity_benefit],
-            render(text, record) {
-                return {
-                  props: {
-                    style: { background: text == 'Low' ? "red" : ""}
-                  },
-                  children: <div>{text}</div>
-                };
-              }
+            // render(text, record) {
+            //     return {
+            //       props: {
+            //         style: { background: text == 'Low' ? "red" : ""}
+            //       },
+            //       children: <div>{text}</div>
+            //     };
+            //   }
         },
         {
             title: 'Livelihood Benefit',
@@ -120,6 +120,7 @@ const Index = () => {
         var tempTotalRegions = []
         var fName = ''
         var scope = ''
+        var org_name = ''
         for (var r in regionData) {
             var tempRegion = regionData[r]
             var fId = tempRegion.forest
@@ -128,10 +129,11 @@ const Index = () => {
                 var tempForest = forestData[f]
                 if (fId == tempForest.id)
                     fName = tempForest.name
+                    org_name = tempForest.organization_name
             }
             var region = {
                 key: tempRegion.id,
-                partner_name: 'World Land Trust',
+                partner_name: org_name,
                 project_name: fName,
                 region_id: tempRegion.id,
                 biodiversity_benefit: choiceMapping[tempRegion.biodiversity_benefit],
@@ -144,7 +146,7 @@ const Index = () => {
                 natureBased: tempRegion.nature_based ? 'Yes' : 'No',
                 description: tempRegion.description,
             }
-            // console.log(region)
+            console.log(region)
             tempTotalRegions = tempTotalRegions.concat(region)
         }
         setTotalRegions(tempTotalRegions)

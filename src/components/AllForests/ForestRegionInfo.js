@@ -4,7 +4,7 @@ import 'antd/dist/antd.css';
 import { Row, Col, Descriptions, Button } from 'antd';
 import { withRouter } from 'react-router-dom';
 import { Progress } from 'semantic-ui-react'
-import {data, choiceMapping, tidyName} from '../Util/AttributeData'
+import { data, choiceMapping, tidyName } from '../Util/AttributeData'
 
 const ForestRegionInfo = withRouter(({ history, color, region, size, }) => {
 
@@ -38,19 +38,21 @@ const ForestRegionInfo = withRouter(({ history, color, region, size, }) => {
                 }))
             })}
             {region && <Col span={24}>
-                <Descriptions title={"Region "+color.toString()} bordered>
-                    {data['strAttr'].map((item, i)=>
+                <Descriptions title={"Region " + color.toString()} bordered>
+                    {data['strAttr'].map((item, i) =>
                         <Descriptions.Item key={i} span={3} label={tidyName(item)}>{region[item]}</Descriptions.Item>)}
-                    {data['intAttr'].map((item, i)=>
+                    {data['intAttr'].map((item, i) =>
                         <Descriptions.Item key={i} span={3} label={tidyName(item)}>{choiceMapping[region[item]]}</Descriptions.Item>)}
                     {/* need update */}
-                    {data['checkAttr'].map((item, i)=>
-                        <Descriptions.Item key={i} span={3} label={tidyName(item)}>{region[item]?"True":"False"}</Descriptions.Item>)}
-                    {data['floatAttr'].map((item, i)=>
+                    {data['checkAttr'].map((item, i) =>
+                        <Descriptions.Item key={i} span={3} label={tidyName(item)}>{region[item] ? "True" : "False"}</Descriptions.Item>)}
+                    {data['floatAttr'].map((item, i) =>
+                        <Descriptions.Item key={i} span={3} label={tidyName(item)}>{region[item]}</Descriptions.Item>)}
+                    {data['fundingAttr'].map((item, i) =>
                         <Descriptions.Item key={i} span={3} label={tidyName(item)}>{region[item]}</Descriptions.Item>)}
                 </Descriptions>
-                <Button style={{ float: "right", margin: "0px 30px" }} onClick={()=>onClickFund(region.id)}>Fund</Button>
-                
+                <Button style={{ float: "right", margin: "0px 30px" }} onClick={() => onClickFund(region.id)}>Fund</Button>
+
             </Col>}
         </div>
     )

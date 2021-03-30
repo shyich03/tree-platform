@@ -13,7 +13,7 @@ export default class RegionForm extends Component {
             onChange(id, allFields)
         }
         
-        console.log(Object.keys(choiceMapping));
+        //console.log(Object.keys(choiceMapping));
         return (
             <Col span={8}>
                 <Form 
@@ -28,7 +28,7 @@ export default class RegionForm extends Component {
                             label={item}
                         >
                             <Select
-                                // defaultValue={choiceMapping[initialData[item]].toString()}
+                                defaultValue={choiceMapping[initialData[item]].toString()}
                                 style={{ width: 150}}
                             >
                                 {Object.keys(choiceMapping).map((item,index) =><Option key={index} value={parseInt(item)}>{choiceMapping[item]}</Option>)}
@@ -48,7 +48,7 @@ export default class RegionForm extends Component {
                                 <Option value="prelim">Prelim</Option>
                                 <Option value="3rd party">3rd party</Option> */}
                             </Select>
-                            <Checkbox onChange={() => console.log("check")}>Informed Guess</Checkbox>
+                            {/* <Checkbox onChange={() => console.log("check")}>Informed Guess</Checkbox> */}
                         </Form.Item> )}
                     {data['floatAttr'].map((item, index) => 
                         <Form.Item

@@ -10,6 +10,7 @@ import { Progress } from 'semantic-ui-react'
 import 'semantic-ui-css/semantic.min.css'
 import CreateRegionForm from "./CreateRegionForm";
 import FundingCap from '../ForestDetail/FundingCap'
+import FundingChart from "./FundingChart";
 
 const ForestInfo = ({ item, region, type, onOK }) => {
 
@@ -56,23 +57,31 @@ const ForestInfo = ({ item, region, type, onOK }) => {
         }
         return (1000)
     }
-    // console.log(type, item);
+    console.log(type, item);
     const needRegionInfo = type == 'Auth' && item.state == 1
     const needFundingCap = type == 'Owner' && item.state == 2
-    const colors={1:"blue", 2:"green", 3:"red"}
+    const colors = { 1: "blue", 2: "green", 3: "red" }
     return (
         <div>
-            { needRegionInfo?
+            <h1>{item.name} by {item.organization_name}</h1>
+            { needRegionInfo ?
                 <CreateRegionForm item={item} onOK={onOK} /> :
                 <div>
-                    
+
                     <div style={{ position: "relative", marginBottom: "20px" }} >
-                        <img
-                            draggable="false"
-                            onLoad={calculateSize}
-                            src={item.maps_image}
-                            ref={imgRef}
-                            style={{ "width": "50%", zIndex: "1" }} />
+                        <Row>
+                            <Col span={12}>
+                                <img
+                                    draggable="false"
+                                    onLoad={calculateSize}
+                                    src={item.maps_image}
+                                    ref={imgRef}
+                                    style={{ "width": "100%", zIndex: "1" }} />
+                            </Col>
+                            <Col span={12}>
+                            {item.state == 3 && <FundingChart region={region}/>}
+                            </Col>
+                        </Row>
                         <div>
                             <Button style={{ margin: "10px 0 -15px 0" }} onClick={() => setShowHansenImg(true)}>Hansen Dataset Image</Button>
                             <Button style={{ marginLeft: "10px" }} onClick={() => setShowForestMap(true)}>Show Google Map</Button>
@@ -83,15 +92,15 @@ const ForestInfo = ({ item, region, type, onOK }) => {
                             <>
                                 <Divider orientation="left">Forest Region Info</Divider>
                                 {/* <Row > */}
-                                {[1,2,3].map(i=>
+                                {[1, 2, 3].map(i =>
                                     <div key={i}>
-                                        { needFundingCap&& <FundingCap forest={item} region={region[i-1]} onOK={onOK}></FundingCap> }
-                                        <ForestRegionInfo color={i} region={region[i-1]} size={size} />
+                                        {needFundingCap && <FundingCap forest={item} region={region[i - 1]} onOK={onOK}></FundingCap>}
+                                        <ForestRegionInfo color={i} region={region[i - 1]} size={size} />
                                         <h4>Funding Progress:</h4>
                                         <Progress color={colors[i]} percent={11} progress />
                                     </div>)}
-                                
-                                
+
+
                             </>
                             // <>
                             //     <Divider orientation="left">Forest Region Info</Divider>
