@@ -19,7 +19,7 @@ class AllForests extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            menu: "my",
+            menu: 'allforest',
             allForest: [],
             data: [],
             cur_item: (props.location.state && props.location.state.cur_item) || {},
@@ -42,14 +42,6 @@ class AllForests extends Component {
         }
     }
 
-    setMenu = () => {
-        console.log(this.state.type)
-        if (this.state.type == 'Funder' || this.state.type == 'Authen'){
-            this.setState({
-                menu: 'allforest'
-            })
-        }
-    }
     async getForests(){
         const {token} = this.props
         console.log(token);
@@ -61,17 +53,35 @@ class AllForests extends Component {
             })
         return res
     }
+
+    setMenu = () => {
+        if (this.props.type == 'Owner'){
+            this.setState({
+                menu: 'my'
+            })
+            return 'my'
+        }
+        return 'allforest'
+    }
+
     async componentDidMount() {
+        var menu = this.setMenu()
         var res = await this.getForests()
+        var allResForest = res.data.map((e) => {
+            var o = Object.assign({}, e)
+            o.key = o.id.toString()
+            return o
+        })
+        var data = this.getMenuForest(menu, allResForest)
         this.setState({
             allForest: allResForest,
-            data: this.getMenuForest(this.state.menu, allResForest)
+            data: data
         })
-        if (res.data.length > 0) {
+        if (data.length > 0) {
             if (this.isCurEmpty()) {
-                this.setState({ cur_item: this.state.data[0] })
+                this.setState({ cur_item: data[0] })
             }
-            await this.getCurrentRegion(this.state.data[0].id)
+            await this.getCurrentRegion(data[0].id)
         }
         // console.log(res);
     }
@@ -220,9 +230,9 @@ class AllForests extends Component {
                 <Header className="header">
                     {/* <div className="logo" /> */}
                     <Menu theme="dark" mode="horizontal"
-                        defaultSelectedKeys={type == 'Funder' ? "allforest" : type == 'Authen' ? "allforest" : 'my'}
+                        defaultSelectedKeys={type == 'Funder' ? "allforest" : type == 'Auth' ? "allforest" : 'my'}
                         style={{ marginLeft: -50 }} onClick={this.handleMenuCLick}>
-                        {(type == 'Funder' || type == 'Authen' )&&
+                        {(type == 'Funder' || type == 'Auth' )&&
                             <Menu.Item key="allforest">All Forest</Menu.Item>
                         }
                         {type == 'Owner' &&
