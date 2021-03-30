@@ -50,15 +50,19 @@ class AllForests extends Component {
             })
         }
     }
-
+    async getForests(){
+        const {token} = this.props
+        console.log(token);
+        var res = await api.get('forest/?abc=a&d=d',
+            {
+                headers: {
+                    'Authorization': 'Authorization: Token ' + token
+                }
+            })
+        return res
+    }
     async componentDidMount() {
-        this.setMenu()
-        var res = await api.get('forest/')
-        var allResForest = res.data.map((e) => {
-            var o = Object.assign({}, e)
-            o.key = o.id.toString()
-            return o
-        })
+        var res = await this.getForests()
         this.setState({
             allForest: allResForest,
             data: this.getMenuForest(this.state.menu, allResForest)
@@ -159,7 +163,7 @@ class AllForests extends Component {
     }
 
     onOK = async (forest_id) => {
-        var res = await api.get('forest/')
+        var res = await this.getForests()
         var data = res.data.map((e) => {
             var o = Object.assign({}, e)
             o.key = o.id.toString()
