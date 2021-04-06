@@ -236,7 +236,7 @@ const NewAddForm = ({ showAddModal, onOK, onCancel, token }) => {
         //     {
         //         headers: {
         //             'Content-Type': 'application/json',
-        //             'Authorization': 'Authorization: Token ' + token
+        //             'Authorization': token
         //         }
         //     })
         // // console.log(res, "res");
@@ -261,7 +261,7 @@ const NewAddForm = ({ showAddModal, onOK, onCancel, token }) => {
     //         {
     //             headers: {
     //                 'Content-Type': 'application/json',
-    //                 'Authorization': 'Authorization: Token ' + token
+    //                 'Authorization': token
     //             }
     //         })
     //     // console.log(res, regionFormData());

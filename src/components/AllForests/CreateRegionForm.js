@@ -201,7 +201,7 @@ const CreateRegionForm = ({  onOK, item, token }) => {
             {
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': 'Authorization: Token ' + token
+                    'Authorization': token
                 }
             })
         // console.log(res, "res");

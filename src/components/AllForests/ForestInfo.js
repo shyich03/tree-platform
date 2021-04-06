@@ -57,7 +57,7 @@ const ForestInfo = ({ item, region, type, onOK }) => {
         }
         return (1000)
     }
-    console.log(type, item);
+    console.log(type, item, region);
     const needRegionInfo = type == 'Auth' && item.state == 1
     const needFundingCap = type == 'Owner' && item.state == 2
     const colors = { 1: "blue", 2: "green", 3: "red" }
@@ -94,22 +94,12 @@ const ForestInfo = ({ item, region, type, onOK }) => {
                                 {/* <Row > */}
                                 {[1, 2, 3].map(i =>
                                     <div key={i}>
-                                        {needFundingCap && <FundingCap forest={item} region={region[i - 1]} onOK={onOK}></FundingCap>}
+                                        {needFundingCap&& <FundingCap forest={item} region={region[i - 1]} onOK={onOK}></FundingCap>}
                                         <ForestRegionInfo color={i} region={region[i - 1]} size={size} />
                                         <h4>Funding Progress:</h4>
                                         <Progress color={colors[i]} percent={11} progress />
                                     </div>)}
-
-
                             </>
-                            // <>
-                            //     <Divider orientation="left">Forest Region Info</Divider>
-                            //     <Row >
-                            //         <ForestRegionInfo color={1} region={region[0]} size={size} />
-                            //         <ForestRegionInfo color={2} region={region[1]} size={size} />
-                            //         <ForestRegionInfo color={3} region={region[2]} size={size} />
-                            //     </Row>
-                            // </>
                         }
                     </div>
                 </div>
