@@ -17,7 +17,8 @@ const Index = () => {
         local_benefit: levels,
         carbon_credit_status: levels,
         minised_leakage: levels,
-        carbon_sequestration: [0, 10000],
+        carbon_sequestration: [0, 1000],
+        funding_goal: [0, 10000],
         domestic: 1,
         international: 1,
         nature_based: 1,
@@ -83,7 +84,7 @@ const Index = () => {
             sorter: (a, b) => levelValue[a.carbon_credit_status] - levelValue[b.carbon_credit_status],
         },
         {
-            title: 'Minised Leakage',
+            title: 'Minimized Leakage',
             dataIndex: 'minised_leakage',
             key: 'minised_leakage',
             defaultSortOrder: 'ascend',
@@ -114,6 +115,13 @@ const Index = () => {
             dataIndex: item,
             key: item,
         })),
+        {
+            title: 'Funding Goal',
+            dataIndex: 'funding_goal',
+            key: 'funding_goal',
+            sortDirections: ['descend', 'ascend'],
+            sorter: (a, b) => a.funding_goal - b.funding_goal,
+        },
     ]
 
     const setAllRegions = (regionData, forestData) => {
@@ -127,9 +135,12 @@ const Index = () => {
             var scope = tempRegion.international ? 'International' : 'Domestic'
             for (var f in forestData) {
                 var tempForest = forestData[f]
-                if (fId == tempForest.id)
+                if (fId == tempForest.id) {
+                    // console.log(fId + "###" + tempForest.id)
+                    // console.log(tempForest)
                     fName = tempForest.name
                     org_name = tempForest.organization_name
+                }
             }
             var region = {
                 key: tempRegion.id,
@@ -145,8 +156,8 @@ const Index = () => {
                 scope: scope,
                 natureBased: tempRegion.nature_based ? 'Yes' : 'No',
                 description: tempRegion.description,
+                funding_goal: tempRegion.funding_goal
             }
-            console.log(region)
             tempTotalRegions = tempTotalRegions.concat(region)
         }
         setTotalRegions(tempTotalRegions)
@@ -159,6 +170,7 @@ const Index = () => {
             o.key = o.id.toString()
             return o
         })
+        tempData = tempData.filter(forest => forest.state == 3)
         // console.log(JSON.stringify(tempData))
         // for (var x in tempData) {
         //     console.log(tempData[x])
@@ -188,6 +200,7 @@ const Index = () => {
             o.key = o.id.toString()
             return o
         })
+        tempData = tempData.filter(region => region.funding_goal)
         // console.log(tempData[0])
         return tempData
     }
@@ -231,6 +244,9 @@ const Index = () => {
             if (!((reg.carbon_sequestration >= filter.carbon_sequestration[0]) && (reg.carbon_sequestration <= filter.carbon_sequestration[1]))) {
                 return false
             }
+            if (!((reg.funding_goal >= filter.funding_goal[0]) && (reg.funding_goal <= filter.funding_goal[1]))) {
+                return false
+            }
             var scope = []
             if (filter.domestic) scope.push('Domestic')
             if (filter.international) scope.push('International')
@@ -257,7 +273,7 @@ const Index = () => {
     }, [filter.biodiversity_benefit, filter.livelihood_benefit,
     filter.local_benefit, filter.carbon_credit_status, filter.minised_leakage,
     filter.carbon_sequestration, filter.domestic, filter.international,
-    filter.non_nature_based, filter.nature_based]);
+    filter.non_nature_based, filter.nature_based, filter.funding_goal]);
 
     const history = useHistory();
 

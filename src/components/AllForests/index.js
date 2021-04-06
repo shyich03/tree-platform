@@ -37,13 +37,15 @@ class AllForests extends Component {
             return allForest.filter(forest => forest.state == 2)
         } else if (menu == 'pending-verification') {
             return allForest.filter(forest => forest.state == 1)
+        } else if (menu == 'allforest' && this.props.type == 'Funder'){
+            return allForest.filter(forest => forest.state == 3)
         } else {
             return allForest
         }
     }
 
-    async getForests(){
-        const {token} = this.props
+    async getForests() {
+        const { token } = this.props
         console.log(token);
         var res = await api.get('forest/?abc=a&d=d',
             {
@@ -55,7 +57,7 @@ class AllForests extends Component {
     }
 
     setMenu = () => {
-        if (this.props.type == 'Owner'){
+        if (this.props.type == 'Owner') {
             this.setState({
                 menu: 'my'
             })
@@ -91,6 +93,8 @@ class AllForests extends Component {
             console.log(11111)
             this.setState({ cur_item: data[0] })
             await this.getCurrentRegion(data[0].id)
+        } else {
+            this.setState({ cur_item: null })
         }
     }
 
@@ -113,11 +117,12 @@ class AllForests extends Component {
     }
 
     setMenuForest = (menu) => {
+        var data = this.getMenuForest(menu, this.state.allForest)
         this.setState({
             menu: menu,
-            data: this.getMenuForest(menu, this.state.allForest)
+            data: data
         })
-        this.setCurrForest(this.getMenuForest(menu, this.state.allForest))
+        this.setCurrForest(data)
     }
 
     handleMenuCLick = e => {
@@ -130,7 +135,7 @@ class AllForests extends Component {
             this.setState({ showNewAddModal: true })
         } else if (e.key == "Filter") {
             this.setState({ showPreferenceSetting: true })
-        } else if (e.key == "all") {
+        } else if (e.key == "region-table") {
             this.showForestTable()
         } else if (e.key == "pending-funding-goal" || e.key == "pending-verification" || e.key == "my" || e.key == "allforest") {
             console.log(e.key)
@@ -172,21 +177,24 @@ class AllForests extends Component {
         this.setState({ showAddModal: true })
     }
 
-    onOK = async (forest_id) => {
+    onOK = async (forest_id, menuNumber) => {
         var res = await this.getForests()
-        var data = res.data.map((e) => {
+        var allforest = res.data.map((e) => {
             var o = Object.assign({}, e)
             o.key = o.id.toString()
             return o
         })
+        var data = menuNumber == 4 ? allforest : allforest.filter(forest => forest.state == menuNumber)
         var cur = data.find(e => e.id === forest_id)
         this.setState({
             data: data,
+            allForest: allforest,
             showAddModal: false,
             showNewAddModal: false,
             cur_item: cur
         })
         await this.getCurrentRegion(forest_id)
+        // this.setMenuForest('pending-funding-goal')
     }
 
     // Preference Settings helpers-------------------------------------------
@@ -232,11 +240,11 @@ class AllForests extends Component {
                     <Menu theme="dark" mode="horizontal"
                         defaultSelectedKeys={type == 'Funder' ? "allforest" : type == 'Auth' ? "allforest" : 'my'}
                         style={{ marginLeft: -50 }} onClick={this.handleMenuCLick}>
-                        {(type == 'Funder' || type == 'Auth' )&&
-                            <Menu.Item key="allforest">All Forest</Menu.Item>
+                        {(type == 'Funder' || type == 'Auth') &&
+                            <Menu.Item key="allforest">All Projects</Menu.Item>
                         }
                         {type == 'Owner' &&
-                            <Menu.Item key="my">My forests</Menu.Item>
+                            <Menu.Item key="my">My Projects</Menu.Item>
                         }
                         {type == 'Owner' &&
                             <Menu.Item key="pending-funding-goal">Pending Funding Goal</Menu.Item>
@@ -245,8 +253,8 @@ class AllForests extends Component {
                             <Menu.Item key="pending-verification">Pending Verification</Menu.Item>
                         }
 
-
-                        <Menu.Item key="all">Table of Regions</Menu.Item>
+                        {type == 'Funder' &&
+                            <Menu.Item key="region-table">Table of Regions</Menu.Item>}
                         <Menu.Item style={{ float: "right" }} key="logout">Log out</Menu.Item>
 
                         {/* {type == 'Owner' &&

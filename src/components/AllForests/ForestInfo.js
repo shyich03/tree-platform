@@ -6,7 +6,7 @@ import 'antd/dist/antd.css';
 import ForestRegionInfo from "./ForestRegionInfo";
 import HansenImg from "./HansenImg";
 import ForestMap from "./ForestMap";
-import { Progress } from 'semantic-ui-react'
+import { List, Progress } from 'semantic-ui-react'
 import 'semantic-ui-css/semantic.min.css'
 import CreateRegionForm from "./CreateRegionForm";
 import FundingCap from '../ForestDetail/FundingCap'
@@ -60,10 +60,10 @@ const ForestInfo = ({ item, region, type, onOK }) => {
     console.log(type, item);
     const needRegionInfo = type == 'Auth' && item.state == 1
     const needFundingCap = type == 'Owner' && item.state == 2
-    const colors = { 1: "blue", 2: "green", 3: "red" }
+    const colors = { 1: "green", 2: "red", 3: "blue" }
     return (
         <div>
-            <h1>{item.name} by {item.organization_name}</h1>
+            <p style={{ "fontSize": "25px" }}>{item.name} by <b>{item.organization_name}</b></p>
             { needRegionInfo ?
                 <CreateRegionForm item={item} onOK={onOK} /> :
                 <div>
@@ -90,14 +90,14 @@ const ForestInfo = ({ item, region, type, onOK }) => {
                         </div>
                         {region.lenght != 0 &&
                             <>
-                                <Divider orientation="left">Forest Region Info</Divider>
+                                <Divider orientation="left">Project Region Info</Divider>
                                 {/* <Row > */}
-                                {[1, 2, 3].map(i =>
+                                {[...Array(region.length).keys()].map(i =>
                                     <div key={i}>
-                                        {needFundingCap && <FundingCap forest={item} region={region[i - 1]} onOK={onOK}></FundingCap>}
-                                        <ForestRegionInfo color={i} region={region[i - 1]} size={size} />
+                                        {needFundingCap && <FundingCap forest={item} region={region[i]} onOK={onOK}></FundingCap>}
+                                        <ForestRegionInfo color={i+1} region={region[i]} size={size} />
                                         <h4>Funding Progress:</h4>
-                                        <Progress color={colors[i]} percent={11} progress />
+                                        <Progress color={colors[i+1]} percent={0} progress />
                                     </div>)}
 
 

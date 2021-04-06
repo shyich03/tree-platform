@@ -66,11 +66,13 @@ const NewAddForm = ({ showAddModal, onOK, onCancel, token }) => {
         // const lngDiff = right - left
         var geoViewport = require('@mapbox/geo-viewport')
         var bounds = geoViewport.viewport([
-            b,
             l,
-            t,
-            r
+            b,
+            r,
+            t
         ], [480, 480]);
+        console.log(`${t}--${b}--${r}--${l}`)
+        console.log(bounds)
         return bounds.zoom
     }
 
@@ -245,7 +247,7 @@ const NewAddForm = ({ showAddModal, onOK, onCancel, token }) => {
         setShowImage(false)
         setShowMap(false)
         onCancel()
-        onOK(forestID)
+        onOK(forestID, 1)
     }
 
     // const submitImageMask = async () => {

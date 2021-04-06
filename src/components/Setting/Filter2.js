@@ -17,7 +17,7 @@ const Filter2 = ({ showPreferenceSetting, onCancel, onSubmit, preference}) => {
 
     var tempPreference = preference
 
-    const attributes = ["Biodiversity benefit", "Livelihood benefit", "Local benefit", "Carbon credit status", "Minised leakage"]
+    const attributes = ["Biodiversity benefit", "Livelihood benefit", "Local benefit", "Carbon credit status", "Minised leakage", "Funding Goal"]
 
 
 
@@ -42,6 +42,9 @@ const Filter2 = ({ showPreferenceSetting, onCancel, onSubmit, preference}) => {
             onCancel={onCancel}
             // onLoad={console.log("load")}
         >
+            <h4 style={{ marginTop: "0px" }} >Funding Goal</h4>
+            <Slider range min={0} max={10000} onChange={(change) => tempPreference.funding_goal = change} defaultValue={preference.funding_goal} disabled={false} />
+
             <h4>Biodiversity benefit</h4>
             <Select
                 mode="multiple"
@@ -91,7 +94,7 @@ const Filter2 = ({ showPreferenceSetting, onCancel, onSubmit, preference}) => {
             </Select>
 
             <h4 style={{ marginTop: "20px" }} >Carbon sequestration per hectare (Mg/ha)</h4>
-            <Slider range min={0} max={10000} onChange={(change) => tempPreference.carbon_sequestration = change} defaultValue={preference.carbon_sequestration} disabled={false} />
+            <Slider range min={0} max={1000} onChange={(change) => tempPreference.carbon_sequestration = change} defaultValue={preference.carbon_sequestration} disabled={false} />
 
             <h4 style={{ marginTop: "20px" }}>Minised leakage</h4>
             <Select

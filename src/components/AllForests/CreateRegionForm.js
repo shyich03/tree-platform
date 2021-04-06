@@ -54,6 +54,8 @@ const CreateRegionForm = ({  onOK, item, token }) => {
     const [regionFormData, setRegionFormData] = useState(createRegionFormData())
     const [forestID, setForestID] = useState(null)
     const imgRef = useRef()
+    const [regionExist, setRegionExist] = useState([0,0,0])
+
 
     const { REACT_APP_GOOGLE_KEY } = process.env
 
@@ -181,6 +183,16 @@ const CreateRegionForm = ({  onOK, item, token }) => {
         }
     }, [])
 
+    const getNonEmptyRegion = (regionForm) => {
+        var nonEmptyRegion = []
+        for (var i in regionExist){
+            if(regionExist[i]){
+                nonEmptyRegion.push(regionForm[i])
+            }
+        }
+        return nonEmptyRegion
+    }
+
     const onFinalSubmit = async (v) => {
         // console.log("submit", v);
         setLoading(true)
@@ -188,13 +200,15 @@ const CreateRegionForm = ({  onOK, item, token }) => {
         var forestID = item.id
         
         console.log(gridData)
-        console.log(regionFormData)
+        var nonEmptyRegion = getNonEmptyRegion(regionFormData)
+
+        console.log(nonEmptyRegion)
         console.log(forestID)
         console.log(size)
         var res = await api.post('create-regions',
             {
                 image_map: gridData,
-                data: regionFormData,
+                data: nonEmptyRegion,
                 forest_id: forestID,
                 block_size: size,
             },
@@ -206,13 +220,16 @@ const CreateRegionForm = ({  onOK, item, token }) => {
             })
         // console.log(res, "res");
         setForestID(res.data.id)
-        onOK(forestID)
+        onOK(forestID,4)
     }
 
     const changeRegionData = (groupNum, value) => {
         let item = regionFormData
         item[groupNum] = { ...item[groupNum], ...value }
         setRegionFormData(item)
+        var temp = regionExist
+        temp[groupNum] = 1
+        setRegionExist(temp)
     }
 
     
