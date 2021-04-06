@@ -50,7 +50,7 @@ class AllForests extends Component {
         var res = await api.get('forest/?abc=a&d=d',
             {
                 headers: {
-                    'Authorization': 'Authorization: Token ' + token
+                    'Authorization': token
                 }
             })
         return res

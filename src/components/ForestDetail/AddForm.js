@@ -170,7 +170,7 @@ class AddForm extends Component {
                 {
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': 'Authorization: Token ' + token
+                        'Authorization': token
                     }
                 })
             // console.log(res, this.regionFormData());
