@@ -28,7 +28,7 @@ export const levelValue = {
 }
 
 export const tableData = {
-    'regionInfo' : ['partner_name', 'project_name', 'region_id'],
+    'regionInfo' : ['region_id', 'project_name', 'partner_name'],
     'intAttr' : ['biodiversity_benefit', 'livelihood_benefit', 'local_benefit', 'carbon_credit_status', "minised_leakage"],
     'floatAttr' : ['carbon_sequestration'],
     'checkAttr' : ['domestic', "international", "nature_based"],

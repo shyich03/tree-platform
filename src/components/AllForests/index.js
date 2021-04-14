@@ -46,7 +46,7 @@ class AllForests extends Component {
 
     async getForests() {
         const { token } = this.props
-        console.log(token);
+        // console.log(token);
         var res = await api.get('forest/?abc=a&d=d',
             {
                 headers: {
@@ -157,10 +157,7 @@ class AllForests extends Component {
     showForestTable = () => {
         const { history } = this.props
         history.push({
-            pathname: "/overview",
-            state: {
-                item: this.state.cur_item
-            }
+            pathname: "/overview"
         })
     }
 

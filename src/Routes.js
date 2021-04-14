@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import {BrowserRouter as Router, Link, Switch, Route} from "react-router-dom";
 import { FunderLogin, OwnerLogin, AuthLogin, FunderRegister, OwnerRegister, AuthRegister} from './components/login';
 import AllForests from './components/AllForests';
-import ForestTable from './components/ForestTable/Index';
+import ForestTable from './components/ForestTable';
 import Home from './components/home';
 // import Add from './components/ForestDetail/AddForest';
 import Forest from './components/ForestDetail';

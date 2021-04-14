@@ -5,10 +5,11 @@ import { api } from '../../apis'
 import { levels, choiceMapping, tidyName, levelValue, tableData } from '../Util/AttributeData'
 import Filter2 from '../Setting/Filter2';
 import { Redirect, Link } from "react-router-dom";
+import { connect } from 'react-redux'
 
 const { Header, Footer, Sider, Content } = Layout;
 
-const Index = () => {
+const Index = ({token}) => {
 
     const [showFilter, setShowFilter] = useState(false)
     const [filter, setFilter] = useState([])
@@ -178,7 +179,13 @@ const Index = () => {
     }
 
     const fetchForest = async () => {
-        var res = await api.get('forest/')
+        console.log(token);
+        var res = await api.get('forest/',
+        {
+            headers: {
+                'Authorization': token
+            }
+        })
         var tempData = res.data.map((e) => {
             var o = Object.assign({}, e)
             o.key = o.id.toString()
@@ -208,7 +215,12 @@ const Index = () => {
     }
 
     const fetchRegion = async () => {
-        var res = await api.get('region/')
+        var res = await api.get('region/',
+        {
+            headers: {
+                'Authorization': token
+            }
+        })
         var tempData = res.data.map((e) => {
             var o = Object.assign({}, e)
             o.key = o.id.toString()
@@ -329,5 +341,10 @@ const Index = () => {
         </Layout>
     )
 }
-
-export default Index
+const mapStateToProps = (state) => {
+    // console.log(state);
+    return {
+        token: state.token
+    }
+}
+export default connect(mapStateToProps)(Index)
