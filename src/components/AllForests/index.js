@@ -22,7 +22,7 @@ class AllForests extends Component {
             menu: 'allforest',
             allForest: [],
             data: [],
-            cur_item: (props.location.state && props.location.state.cur_item) || {},
+            cur_item:  {},
             type: props.user_type,
             showAddModal: false,
             cur_item_region: null,
@@ -67,6 +67,7 @@ class AllForests extends Component {
     }
 
     async componentDidMount() {
+        var id = this.props.match.params.id
         var menu = this.setMenu()
         var res = await this.getForests()
         var allResForest = res.data.map((e) => {
@@ -80,12 +81,11 @@ class AllForests extends Component {
             data: data
         })
         if (data.length > 0) {
-            if (this.isCurEmpty()) {
-                this.setState({ cur_item: data[0] })
-            }
-            await this.getCurrentRegion(data[0].id)
+            var forest = data.find(e => e.id == id)
+            this.setState({ cur_item: forest })
+            await this.getCurrentRegion(id)
         }
-        // console.log(res);
+        console.log(data, forest, id);
     }
 
     async setCurrForest(data) {
@@ -157,13 +157,14 @@ class AllForests extends Component {
     showForestTable = () => {
         const { history } = this.props
         history.push({
-            pathname: "/ForestTable",
+            pathname: "/overview",
             state: {
                 item: this.state.cur_item
             }
         })
     }
 
+    // not used
     showForestDetail = () => {
         const { history } = this.props
         history.push({
@@ -212,15 +213,15 @@ class AllForests extends Component {
             type == "Owner" ?
                 <div>
                     <Button style={{ float: "right", margin: "50px 30px" }} onClick={this.addNewForest}>Add New</Button>
-                    <Button style={{ float: "right", margin: "50px 30px" }} onClick={this.showForestDetail}>Details</Button>
+                    {/* <Button style={{ float: "right", margin: "50px 30px" }} onClick={this.showForestDetail}>Details</Button> */}
                 </div>
                 : type == "Funder" ?
                     <div>
 
-                        <Button style={{ float: "right", margin: "50px 30px" }} onClick={this.showForestDetail}>Details</Button>
+                        {/* <Button style={{ float: "right", margin: "50px 30px" }} onClick={this.showForestDetail}>Details</Button> */}
                     </div>
                     :
-                    <Button style={{ float: "right", margin: "50px 30px" }} onClick={this.showForestDetail}>Details</Button>
+                    <div/>// <Button style={{ float: "right", margin: "50px 30px" }} onClick={this.showForestDetail}>Details</Button>
         )
     }
     render() {
@@ -290,7 +291,7 @@ class AllForests extends Component {
                             <ForestInfo item={cur_item} region={cur_item_region} onOK={this.onOK} />
                             {/* <div>{cur_item.desc}</div> */}
                             {this.buttons()}</div>
-                        ) : (<div>No Forest</div>)}
+                        ) : (<div>No Forest Found</div>)}
 
 
                         <NewAddForm

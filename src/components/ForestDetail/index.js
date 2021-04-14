@@ -1,3 +1,4 @@
+// not used
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import 'antd/dist/antd.css';
@@ -27,10 +28,7 @@ class ForestDetail extends Component{
     onClickBack=() =>{
         const {history} = this.props
         history.push({
-        pathname : "/overview",
-        state: {
-            cur_item: this.state.item
-        }
+        pathname : `/overview/${this.state.item.id}`
         })
     }
     onClickFund=()=>{

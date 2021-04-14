@@ -4,6 +4,7 @@ import { useHistory } from "react-router";
 import { api } from '../../apis'
 import { levels, choiceMapping, tidyName, levelValue, tableData } from '../Util/AttributeData'
 import Filter2 from '../Setting/Filter2';
+import { Redirect, Link } from "react-router-dom";
 
 const { Header, Footer, Sider, Content } = Layout;
 
@@ -35,13 +36,22 @@ const Index = () => {
         setPreference(f)
         setShowFilter(false)
     }
-
+    const redirect = (id)=>{
+        // console.log(id);
+        history.push({
+            pathname: `/overview/${id}`,
+        })
+    }
     const columns = [
         ...tableData['regionInfo'].map((item) =>
         ({
             title: tidyName(item),
             dataIndex: item,
             key: item,
+            render: (t,r)=> {
+                // console.log(t,r)
+                return <Button type="link" onClick={()=>{redirect(r.forest_id)}}>{t}</Button>          
+            }
         })),
         {
             title: 'Biodiversity Benefit',
@@ -129,17 +139,20 @@ const Index = () => {
         var fName = ''
         var scope = ''
         var org_name = ''
+        var f_id = 0
         for (var r in regionData) {
             var tempRegion = regionData[r]
             var fId = tempRegion.forest
             var scope = tempRegion.international ? 'International' : 'Domestic'
             for (var f in forestData) {
                 var tempForest = forestData[f]
+                // console.log(tempForest);
                 if (fId == tempForest.id) {
                     // console.log(fId + "###" + tempForest.id)
                     // console.log(tempForest)
                     fName = tempForest.name
                     org_name = tempForest.organization_name
+                    f_id = tempForest.id
                 }
             }
             var region = {
@@ -156,7 +169,8 @@ const Index = () => {
                 scope: scope,
                 natureBased: tempRegion.nature_based ? 'Yes' : 'No',
                 description: tempRegion.description,
-                funding_goal: tempRegion.funding_goal
+                funding_goal: tempRegion.funding_goal,
+                forest_id: f_id
             }
             tempTotalRegions = tempTotalRegions.concat(region)
         }
@@ -277,6 +291,7 @@ const Index = () => {
 
     const history = useHistory();
 
+    // not used
     const goBack = () => {
         history.push({
             pathname: "/overview",
@@ -297,7 +312,7 @@ const Index = () => {
                 <Menu theme="dark" mode="horizontal" style={{ marginLeft: -50 }} onClick={handleMenuCLick}>
                     <Menu.Item key="forest_table">Table of Regions</Menu.Item>
                     <Menu.Item key="filter">Filter</Menu.Item>
-                    <Menu.Item style={{ float: "right" }} key="back">Go Back</Menu.Item>
+                    {/* <Menu.Item style={{ float: "right" }} key="back">Go Back</Menu.Item> */}
                 </Menu>
             </Header>
             <Content>

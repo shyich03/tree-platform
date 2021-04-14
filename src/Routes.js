@@ -21,10 +21,10 @@ export default () => {return(
         <Route path="/AuthLogin">
         <AuthLogin />
         </Route>
-        <Route path="/ForestTable" component={ForestTable} />
         <Route path="/overview/forest" component={Forest} />
         {/* <Route path="/overview/add" component={Add} /> */}
-        <Route path="/overview" component={AllForests} />
+        <Route path="/overview/:id" component={AllForests} />
+        <Route path="/overview" component={ForestTable} />
         <Route path="/funding/:id" component={Funding} />
         {/* <Route path="/UserSetting">
         <FunderLogin />
