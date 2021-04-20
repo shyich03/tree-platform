@@ -41,6 +41,14 @@ const ForestInfo = ({ item, region, type, onOK }) => {
         }
     }, [])
 
+    const getFunding = (region) => {
+        var funding = 0
+        for (var i in region.funding) {
+            funding = funding + region.funding[i].amount
+        }
+        return funding
+    }
+
 
     const calculateSize = () => {
         // // console.log(size+ "$$$$$$$$$$$$$$$$$$$$$$$$")
@@ -79,7 +87,7 @@ const ForestInfo = ({ item, region, type, onOK }) => {
                                     style={{ "width": "100%", zIndex: "1" }} />
                             </Col>
                             <Col span={12}>
-                            {item.state == 3 && <FundingChart region={region}/>}
+                                {item.state == 3 && <FundingChart region={region} />}
                             </Col>
                         </Row>
                         <div>
@@ -95,9 +103,13 @@ const ForestInfo = ({ item, region, type, onOK }) => {
                                 {[...Array(region.length).keys()].map(i =>
                                     <div key={i}>
                                         {needFundingCap && <FundingCap forest={item} region={region[i]} onOK={onOK}></FundingCap>}
-                                        <ForestRegionInfo color={i+1} region={region[i]} size={size} />
-                                        <h4>Funding Progress:</h4>
-                                        <Progress color={colors[i+1]} percent={0} progress />
+                                        <ForestRegionInfo color={i + 1} region={region[i]} size={size} type={type} />
+                                        {item.state == 3 &&
+                                            <>
+                                                <h4>Funding Progress:</h4>
+                                                <Progress progress='value' color={colors[i + 1]} value={getFunding(region[i])} total={region[i].funding_goal} />
+                                            </>
+                                        }
                                     </div>)}
                             </>
                         }

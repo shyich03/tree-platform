@@ -33,6 +33,8 @@ const CreateRegionForm = ({  onOK, item, token }) => {
         }
         return (x)
     }
+
+    
     const [top, setTop] = useState(5.5)
     const [bot, setBot] = useState(5.5)
     const [left, setLeft] = useState(5.5)
@@ -51,7 +53,7 @@ const CreateRegionForm = ({  onOK, item, token }) => {
     const [jMax, setJMax] = useState(0)
     const [img, setImg] = useState("")
     const [resize, setResize] = useState(0)
-    const [regionFormData, setRegionFormData] = useState(createRegionFormData())
+    const [regionFormData, setRegionFormData] = useState([])
     const [forestID, setForestID] = useState(null)
     const imgRef = useRef()
     const [regionExist, setRegionExist] = useState([0,0,0])
@@ -91,6 +93,43 @@ const CreateRegionForm = ({  onOK, item, token }) => {
     }
 
     // Color Box --------------------------------------------------------------------------------
+
+    const addRegion = () => {
+        var temp = regionFormData
+        var d={}
+        for(var i =0; i<data['intAttr'].length; i++){
+            d[data['intAttr'][i]] = 0
+        }
+        for(var i =0; i<data['floatAttr'].length; i++){
+            d[data['floatAttr'][i]] = 0
+        }
+        for(var i =0; i<data['checkAttr'].length; i++){
+            d[data['checkAttr'][i]] = false
+        }
+        for(var i =0; i<data['strAttr'].length; i++){
+            d[data['strAttr'][i]] = ''
+        }
+        temp.push(d)
+        setRegionFormData(temp)
+    }
+
+    const checkRegion = () => {
+        var num = regionFormData.length
+        for (var j = 1; j < 4; j++) {
+            if (gridData.some(row => row.includes(j))){
+                if (j > num){
+                    addRegion()
+                }
+            }
+        }
+
+
+    }
+
+    useEffect(() => {
+        checkRegion()
+        console.log(regionFormData)
+    }, [gridData]);
 
 
     const handleResize = e => {

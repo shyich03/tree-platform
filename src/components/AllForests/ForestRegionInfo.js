@@ -6,7 +6,7 @@ import { withRouter } from 'react-router-dom';
 import { Progress } from 'semantic-ui-react'
 import { data, choiceMapping, tidyName } from '../Util/AttributeData'
 
-const ForestRegionInfo = withRouter(({ history, color, region, size, }) => {
+const ForestRegionInfo = withRouter(({ history, color, region, size, type }) => {
 
     const toInt = (s) => {
         s = s.slice(2, -2)
@@ -51,8 +51,10 @@ const ForestRegionInfo = withRouter(({ history, color, region, size, }) => {
                     {data['fundingAttr'].map((item, i) =>
                         <Descriptions.Item key={i} span={3} label={tidyName(item)}>{region[item]}</Descriptions.Item>)}
                 </Descriptions>
-                <Button style={{ float: "right", margin: "0px 30px" }} onClick={() => onClickFund(region.id)}>Fund</Button>
 
+                {type == 'Funder' &&
+                <Button style={{ float: "right", margin: "0px 30px" }} onClick={() => onClickFund(region.id)}>Fund</Button>
+                }
             </Col>}
         </div>
     )

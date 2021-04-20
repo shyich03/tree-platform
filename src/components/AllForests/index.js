@@ -12,6 +12,7 @@ import NewAddForm from '../ForestDetail/NewAddForm'
 // import Filter from '../Setting/Filter';
 import Filter2 from '../Setting/Filter2';
 import { data } from '../Util/AttributeData';
+import Profile from '../Setting/Profile';
 
 const { Header, Content, Sider } = Layout;
 const { SubMenu } = Menu;
@@ -27,6 +28,7 @@ class AllForests extends Component {
             showAddModal: false,
             cur_item_region: null,
             showNewAddModal: false,
+            showProfile: false,
         }
     }
 
@@ -37,7 +39,7 @@ class AllForests extends Component {
             return allForest.filter(forest => forest.state == 2)
         } else if (menu == 'pending-verification') {
             return allForest.filter(forest => forest.state == 1)
-        } else if (menu == 'allforest' && this.props.type == 'Funder'){
+        } else if (menu == 'allforest' && this.props.type == 'Funder') {
             return allForest.filter(forest => forest.state == 3)
         } else {
             return allForest
@@ -140,6 +142,8 @@ class AllForests extends Component {
         } else if (e.key == "pending-funding-goal" || e.key == "pending-verification" || e.key == "my" || e.key == "allforest") {
             console.log(e.key)
             this.setMenuForest(e.key)
+        } else if (e.key == "profile") {
+            this.setState({ showProfile: true })
         }
         else {
             this.setState({ menu: e.key })
@@ -224,8 +228,8 @@ class AllForests extends Component {
         )
     }
     render() {
-        const { data, cur_item, showAddModal, cur_item_region,
-            showNewAddModal } = this.state
+        const { data, cur_item, cur_item_region,
+            showNewAddModal, showProfile } = this.state
         const { type, token } = this.props
         // console.log(this.props, 'allf');
         // const { type } = this.props.location.state
@@ -249,13 +253,18 @@ class AllForests extends Component {
                         {type == 'Owner' &&
                             <Menu.Item key="pending-funding-goal">Pending Funding Goal</Menu.Item>
                         }
-                        {type == 'Owner' &&
+                        {(type == 'Owner'||type == 'Auth') &&
                             <Menu.Item key="pending-verification">Pending Verification</Menu.Item>
                         }
 
                         {type == 'Funder' &&
                             <Menu.Item key="region-table">Table of Regions</Menu.Item>}
+                    
                         <Menu.Item style={{ float: "right" }} key="logout">Log out</Menu.Item>
+
+                        {(type != 'Auth') &&
+                            <Menu.Item style={{ float: "right" }} key="profile">Profile</Menu.Item>
+                        }
 
                         {/* {type == 'Owner' &&
                             <Menu.Item style={{ float: "right" }} key="add">Add New</Menu.Item>
@@ -298,6 +307,12 @@ class AllForests extends Component {
                             onOK={this.onOK}
                             onCancel={() => { this.setState({ showNewAddModal: false }); }}
                         // token={token}
+                        />
+                        <Profile 
+                        showProfile={showProfile}
+                        onCancel={() => { this.setState({ showProfile: false }); }}
+                        type={type}
+                        user={"123"}
                         />
                     </Content>
 
