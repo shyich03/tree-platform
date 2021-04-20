@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import {BrowserRouter as Router, Link, Switch, Route} from "react-router-dom";
 import { FunderLogin, OwnerLogin, AuthLogin, FunderRegister, OwnerRegister, AuthRegister} from './components/login';
 import AllForests from './components/AllForests';
-import ForestTable from './components/ForestTable/Index';
+import ForestTable from './components/ForestTable';
 import Home from './components/home';
 // import Add from './components/ForestDetail/AddForest';
 import Forest from './components/ForestDetail';
@@ -21,10 +21,10 @@ export default () => {return(
         <Route path="/AuthLogin">
         <AuthLogin />
         </Route>
-        <Route path="/ForestTable" component={ForestTable} />
         <Route path="/overview/forest" component={Forest} />
         {/* <Route path="/overview/add" component={Add} /> */}
-        <Route path="/overview" component={AllForests} />
+        <Route path="/overview/:id" component={AllForests} />
+        <Route path="/overview" component={ForestTable} />
         <Route path="/funding/:id" component={Funding} />
         {/* <Route path="/UserSetting">
         <FunderLogin />
