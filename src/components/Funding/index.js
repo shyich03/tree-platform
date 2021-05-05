@@ -31,7 +31,8 @@ class Funding extends Component{
                 }
             })
         console.log(res);
-        this.setState({certificates:res.data.certificates, showModel:false})
+        res = await api.get('region/' + id)
+        this.setState({certificates:res.data.funding, showModel:false, v:0})
 
     }
     onCancel =()=>{
@@ -52,7 +53,7 @@ class Funding extends Component{
         console.log("asdf",this.state);
     }
     render(){
-        const {region, certificates, showModel} = this.state 
+        const {region, certificates, showModel, v} = this.state 
         console.log(this.state, this.props);
         return(
             <Layout>
@@ -81,7 +82,7 @@ class Funding extends Component{
                         visible={showModel}
                         onCancel={this.onCancel}
                         onOk={this.onSubmit}>
-                        <InputNumber min={0} onChange={v=>this.setState({v:v})}/>
+                        <InputNumber min={0} value={v} onChange={v=>this.setState({v:v})}/>
 
                     </Modal>
                 </Content>

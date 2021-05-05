@@ -8,7 +8,7 @@ const ProfileMainPage = ({ showProfileMainPage, onCancel, onSelect, type }) => {
             visible={showProfileMainPage}
             title="Profile Setting"
             onCancel={onCancel}
-            onOk={() => { console.log("123") }}
+            onOk={() => { console.log("123"); onCancel()}}
         // onLoad={console.log("load")}
         >
 

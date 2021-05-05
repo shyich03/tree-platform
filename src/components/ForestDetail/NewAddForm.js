@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react"
 import SearchForm from "./SearchForm"
 import SearchMap from "./SearchMap"
-import { Modal, Button, Upload, Spin, Row } from 'antd';
+import { Modal, Button, Upload, Spin } from 'antd';
 import { InboxOutlined } from '@ant-design/icons';
 import { api } from '../../apis'
 import { connect } from 'react-redux'

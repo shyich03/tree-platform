@@ -4,7 +4,7 @@ import ProfileMainPage from "./ProfileMainPage";
 import ProfileKeySetting from "./ProfileKeySetting";
 import OrgSetting from "./OrgSetting";
 
-const Profile = ({ showProfile, onCancel, onOk, type, user }) => {
+const Profile = ({ showProfile, onCancel, onOk, type }) => {
 
     const [showProfileMainPage, setShowProfileMainPage] = useState(true)
 

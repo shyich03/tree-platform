@@ -310,7 +310,6 @@ class AllForests extends Component {
                         showProfile={showProfile}
                         onCancel={() => { this.setState({ showProfile: false }); }}
                         type={type}
-                        user={"123"}
                         />
                     </Content>
 
