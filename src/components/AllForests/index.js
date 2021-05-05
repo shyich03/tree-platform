@@ -306,11 +306,11 @@ class AllForests extends Component {
                             onCancel={() => { this.setState({ showNewAddModal: false }); }}
                         // token={token}
                         />
-                        <Profile 
+                        {type == 'Funder' &&<Profile 
                         showProfile={showProfile}
                         onCancel={() => { this.setState({ showProfile: false }); }}
                         type={type}
-                        />
+                        />}
                     </Content>
 
                     {/* </Layout> */}

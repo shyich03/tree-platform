@@ -145,6 +145,7 @@ const Index = ({token}) => {
             var tempRegion = regionData[r]
             var fId = tempRegion.forest
             var scope = tempRegion.international ? 'International' : 'Domestic'
+            var maxId = 0
             for (var f in forestData) {
                 var tempForest = forestData[f]
                 // console.log(tempForest);
@@ -156,6 +157,7 @@ const Index = ({token}) => {
                     f_id = tempForest.id
                 }
             }
+            maxId = Math.max(maxId, parseInt(tempRegion.id))
             var region = {
                 key: tempRegion.id,
                 partner_name: org_name,
@@ -175,6 +177,41 @@ const Index = ({token}) => {
             }
             tempTotalRegions = tempTotalRegions.concat(region)
         }
+        console.log(forestData,region);
+        for (var i in forestData){
+            var f = forestData[i]
+            var included = false
+            for (var j in region){
+                var j = region[j]
+                if (r.forest_id == f.id){
+                    included = true
+                    console.log(r.forest_id ,f.id )
+                    break
+                }
+            }
+            if (!included){
+                console.log(f);
+                var region = {
+                    key: maxId+1,
+                    partner_name: f.organization_name,
+                    project_name: f.name,
+                    region_id: '',
+                    biodiversity_benefit: '',
+                    livelihood_benefit: '',
+                    local_benefit: '',
+                    carbon_credit_status: '',
+                    minised_leakage: '',
+                    carbon_sequestration: '',
+                    scope: '',
+                    natureBased: 'No',
+                    description: '',
+                    funding_goal: '',
+                    forest_id: f.id
+                }
+                maxId += 1
+                tempTotalRegions = tempTotalRegions.concat(region)
+            }
+        }
         setTotalRegions(tempTotalRegions)
     }
 
@@ -191,7 +228,7 @@ const Index = ({token}) => {
             o.key = o.id.toString()
             return o
         })
-        tempData = tempData.filter(forest => forest.state == 3)
+        // tempData = tempData.filter(forest => forest.state == 3)
         // console.log(JSON.stringify(tempData))
         // for (var x in tempData) {
         //     console.log(tempData[x])

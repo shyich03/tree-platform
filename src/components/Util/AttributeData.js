@@ -1,3 +1,4 @@
+// store attritue names, used in rendering
 export const data = {
     'intAttr' : ['biodiversity_benefit', 'livelihood_benefit', 'local_benefit', 'carbon_credit_status', "minised_leakage"],
     'floatAttr' : ['carbon_sequestration'],
